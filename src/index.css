@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  html.dark body {
+    @apply bg-night text-white;
+  }
+  ::selection {
+    background: rgba(255, 102, 0, 0.22);
+  }
+  /* Respect reduced motion globally */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1120px] px-6 sm:px-8;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.14em] text-accent;
+  }
+  .surface-card {
+    @apply rounded-3xl border border-paper-line bg-paper-surface shadow-soft;
+  }
+  .dark .surface-card {
+    @apply border-night-line bg-night-surface shadow-none;
+  }
+  .hairline {
+    @apply border-paper-line;
+  }
+  .dark .hairline {
+    @apply border-night-line;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-accent-light hover:shadow-glow active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-transparent px-5 py-3 text-[15px] font-semibold text-ink transition-colors duration-300 hover:bg-black/[0.03];
+  }
+  .dark .btn-ghost {
+    @apply border-night-line text-white hover:bg-white/[0.04];
+  }
+  .text-muted {
+    @apply text-ink-soft;
+  }
+  .dark .text-muted {
+    color: #a8a8bc;
+  }
+  .text-faint {
+    @apply text-ink-faint;
+  }
+  .dark .text-faint {
+    color: #6e6e82;
+  }
+}
+
+/* Grid texture used sparingly behind the hero */
+.bg-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(120, 120, 140, 0.16) 1px,
+    transparent 0
+  );
+  background-size: 38px 38px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 75%);
+}
