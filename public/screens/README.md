@@ -1,27 +1,24 @@
 # App screenshots
 
-Drop your iPhone screenshots here and they appear automatically — no code
-changes needed. If a file is missing, the site shows a built-in rendered
-fallback (never a broken image).
+These files are wired into the site automatically — replace any of them with
+the same filename and it updates. A missing file falls back to a rendered mock
+(never a broken image).
 
-## Expected files
+| File                        | Where it shows      |
+| --------------------------- | ------------------- |
+| `dashboard.jpg`             | Hero (top of page)  |
+| `metabolism.jpg`            | Gallery — slot 1    |
+| `sleep.jpg`                 | Gallery — slot 2    |
+| `insights-detox.jpg`        | Gallery — slot 3    |
+| `insigts-ai-premium.jpg`    | Gallery — slot 4    |
+| `log-week.jpg`              | Gallery — slot 5    |
 
-| File         | Where it shows            | Suggested screen                 |
-| ------------ | ------------------------- | -------------------------------- |
-| `hero.png`   | Hero (top of page)        | Main dashboard / today view      |
-| `1.png`      | Gallery — slot 1          | Real-time caffeine level         |
-| `2.png`      | Gallery — slot 2          | Sleep score                      |
-| `3.png`      | Gallery — slot 3          | Detox program                    |
-| `4.png`      | Gallery — slot 4          | Weekly AI insights               |
-| `5.png`      | Gallery — slot 5          | Widgets / Apple Health           |
+The other screenshots in this folder are unused spares — feel free to swap any
+of them into the slots above by renaming.
 
-## Tips for clean results
-
-- **Aspect ratio:** the frame is iPhone 15 Pro (≈ 1179 × 2556). Use a
-  screenshot from a 6.1"/6.3" device for a perfect fit. Other ratios are
-  cropped with `object-cover`.
-- **No status bar needed** — the frame draws its own Dynamic Island. A
-  full-screen app screenshot works best; the very top is lightly covered by
-  the island.
-- **PNG or JPG**, exact filenames above (lowercase).
-- After adding files, just refresh the site (dev) or rebuild for production.
+## Notes
+- The iPhone frame shows the **top** of each screenshot (`object-top`), so tall
+  scroll-captures still look right. For a perfectly framed shot, use a single
+  device-height screenshot (≈ 1170 × 2532).
+- To change which file maps to which slot, edit `src/components/Hero.tsx`
+  (hero) and `src/components/Gallery.tsx` (gallery).
