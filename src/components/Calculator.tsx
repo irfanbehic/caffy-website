@@ -76,7 +76,10 @@ export function Calculator() {
 
   const curve = buildCurve(effective, half);
   const peak = peakOf(curve);
-  const maxY = Math.max(150, Math.ceil((peak * 1.18) / 20) * 20);
+  // Scale the y-axis to the FULL-weight peak so it stays fixed while a freshly
+  // added drink grows in — otherwise the whole curve visibly rescales mid-add.
+  const axisPeak = peakOf(buildCurve(drinks, half));
+  const maxY = Math.max(150, Math.ceil((axisPeak * 1.18) / 20) * 20);
   const yOf = (mg: number) => PAD.t + (1 - mg / maxY) * PLOT_H;
 
   const atBed = totalAt(effective, bedtime, half);
@@ -311,7 +314,7 @@ export function Calculator() {
                       strokeWidth={1}
                     />
                     <g
-                      transform={`translate(${xOf(d.at)}, ${yOf(0)})`}
+                      transform={`translate(${xOf(d.at)}, ${yOf(0) - 16})`}
                       className="cursor-grab active:cursor-grabbing"
                       onPointerDown={onDown(d.id)}
                       onPointerMove={onDrag}
