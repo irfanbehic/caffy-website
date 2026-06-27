@@ -184,26 +184,26 @@ export function Calculator() {
 
         <Reveal delay={0.1}>
           <div className="surface-card mt-8 overflow-hidden p-4 sm:p-6">
-            {/* readouts — compact inline */}
-            <div className="flex flex-wrap items-stretch gap-2">
+            {/* readouts — fixed 3-col grid so changing digits never reflow the row */}
+            <div className="grid grid-cols-3 gap-2">
               <Readout label={t.calc.now} value={nowVal} unit={t.calc.mg} />
               <Readout label={t.calc.peak} value={peak} unit={t.calc.mg} />
               <Readout label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
-              {/* verdict pill fills remaining space */}
-              <div
-                className="flex min-w-[170px] flex-1 items-center gap-2 rounded-xl px-3 py-2"
-                style={{ background: `${vColor}14` }}
+            </div>
+            {/* verdict — its own row with reserved height so text length can't jump it */}
+            <div
+              className="mt-2 flex min-h-[42px] items-center gap-2 rounded-xl px-3 py-2"
+              style={{ background: `${vColor}14` }}
+            >
+              <span
+                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                style={{ background: vColor }}
               >
-                <span
-                  className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                  style={{ background: vColor }}
-                >
-                  <Bed className="h-3 w-3 text-white" />
-                </span>
-                <p className="text-[12px] font-medium leading-snug" style={{ color: vColor }}>
-                  {vText}
-                </p>
-              </div>
+                <Bed className="h-3 w-3 text-white" />
+              </span>
+              <p className="text-[12.5px] font-medium leading-snug" style={{ color: vColor }}>
+                {vText}
+              </p>
             </div>
 
             {/* chart */}
@@ -459,15 +459,18 @@ function Readout({
   color?: string;
 }) {
   return (
-    <div className="flex min-w-[80px] flex-1 flex-col justify-center rounded-xl border border-paper-line bg-paper-card px-2.5 py-1.5 dark:border-night-line dark:bg-night-card">
-      <p className="text-[9.5px] font-semibold uppercase tracking-wider text-faint">
+    <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-paper-line bg-paper-card px-2.5 py-1.5 dark:border-night-line dark:bg-night-card">
+      <p className="truncate text-[9.5px] font-semibold uppercase tracking-wider text-faint">
         {label}
       </p>
       <p
-        className="mt-0.5 text-[19px] font-bold leading-none tabular-nums sm:text-[21px]"
+        className="mt-0.5 flex items-baseline text-[19px] font-bold leading-none sm:text-[21px]"
         style={color ? { color } : undefined}
       >
-        <AnimatedNumber value={value} />
+        {/* fixed-width number box so adding a digit never shifts the unit */}
+        <span className="inline-block min-w-[3ch] text-right tabular-nums">
+          <AnimatedNumber value={value} />
+        </span>
         <span className="ml-0.5 text-[11px] font-medium text-faint">{unit}</span>
       </p>
     </div>
