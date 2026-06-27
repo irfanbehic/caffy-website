@@ -53,6 +53,12 @@ export function Calculator() {
   const [half, setHalf] = useState(targetHalf);
   const svgRef = useRef<SVGSVGElement>(null);
   const dragRef = useRef<string | null>(null);
+  // Per-drink weight (0→1) so a newly added drink grows into the curve
+  // smoothly instead of snapping in. Missing id ⇒ fully grown (weight 1).
+  const weightsRef = useRef<Map<string, number>>(new Map());
+  const [, setTick] = useState(0);
+  const tick = () => setTick((n) => n + 1);
+  const weightOf = (id: string) => weightsRef.current.get(id) ?? 1;
 
   // smooth half-life morph on profile change
   useEffect(() => {
@@ -65,13 +71,16 @@ export function Calculator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetHalf]);
 
-  const curve = useMemo(() => buildCurve(drinks, half), [drinks, half]);
+  // weighted drinks drive every readout, the curve and the markers
+  const effective = drinks.map((d) => ({ ...d, mg: d.mg * weightOf(d.id) }));
+
+  const curve = buildCurve(effective, half);
   const peak = peakOf(curve);
   const maxY = Math.max(150, Math.ceil((peak * 1.18) / 20) * 20);
   const yOf = (mg: number) => PAD.t + (1 - mg / maxY) * PLOT_H;
 
-  const atBed = totalAt(drinks, bedtime, half);
-  const nowVal = totalAt(drinks, 18, half); // demo "now" = 18:00
+  const atBed = totalAt(effective, bedtime, half);
+  const nowVal = totalAt(effective, 18, half); // demo "now" = 18:00
   const verdict = verdictFor(atBed);
   const vColor =
     verdict === "safe" ? "#00C48C" : verdict === "caution" ? "#FFB800" : "#FF4757";
@@ -82,14 +91,9 @@ export function Calculator() {
       ? t.calc.verdictCaution
       : t.calc.verdictPoor;
 
-  const linePath = useMemo(
-    () =>
-      curve
-        .map((p, i) => `${i ? "L" : "M"}${xOf(p.t).toFixed(1)} ${yOf(p.mg).toFixed(1)}`)
-        .join(" "),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [curve, maxY]
-  );
+  const linePath = curve
+    .map((p, i) => `${i ? "L" : "M"}${xOf(p.t).toFixed(1)} ${yOf(p.mg).toFixed(1)}`)
+    .join(" ");
   const areaPath = `${linePath} L${xOf(DOMAIN_END).toFixed(1)} ${yOf(0)} L${xOf(
     DOMAIN_START
   ).toFixed(1)} ${yOf(0)} Z`;
@@ -116,15 +120,40 @@ export function Calculator() {
   };
   const onUp = () => (dragRef.current = null);
 
-  const addDrink = (kind: string, mg: number) =>
-    setDrinks((ds) =>
-      ds.length >= MAX_DRINKS
-        ? ds
-        : [...ds, { id: newId(), kind, mg, at: clamp(15 + (ds.length % 4) * 0.7, 6, 20) }]
-    );
+  const addDrink = (kind: string, mg: number) => {
+    if (drinks.length >= MAX_DRINKS) return;
+    const id = newId();
+    weightsRef.current.set(id, 0);
+    setDrinks((ds) => [
+      ...ds,
+      { id, kind, mg, at: clamp(15 + (ds.length % 4) * 0.7, 6, 20) },
+    ]);
+    animate(0, 1, {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => {
+        weightsRef.current.set(id, v);
+        tick();
+      },
+    });
+  };
   const atMax = drinks.length >= MAX_DRINKS;
-  const removeDrink = (id: string) => setDrinks((ds) => ds.filter((d) => d.id !== id));
+  const removeDrink = (id: string) => {
+    animate(weightOf(id), 0, {
+      duration: 0.35,
+      ease: "easeIn",
+      onUpdate: (v) => {
+        weightsRef.current.set(id, v);
+        tick();
+      },
+      onComplete: () => {
+        weightsRef.current.delete(id);
+        setDrinks((ds) => ds.filter((d) => d.id !== id));
+      },
+    });
+  };
   const reset = () => {
+    weightsRef.current.clear();
     setDrinks(seed());
     setProfileKey("average");
     setBedtime(23);
@@ -277,7 +306,7 @@ export function Calculator() {
                       x1={xOf(d.at)}
                       y1={yOf(0)}
                       x2={xOf(d.at)}
-                      y2={yOf(totalAt(drinks, d.at, half))}
+                      y2={yOf(totalAt(effective, d.at, half))}
                       className="stroke-ink-faint/30"
                       strokeWidth={1}
                     />

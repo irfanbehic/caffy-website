@@ -3,13 +3,10 @@
 
 function ShotCard({ src }: { src: string }) {
   return (
-    <div className="overflow-hidden rounded-[22px] border border-night-line bg-night shadow-lift ring-1 ring-black/5">
-      <img
-        src={`./screens/${src}`}
-        alt=""
-        loading="lazy"
-        className="w-full"
-      />
+    <div className="relative overflow-hidden rounded-[22px] border border-night-line bg-night shadow-lift ring-1 ring-black/5">
+      <img src={`./screens/${src}`} alt="" loading="lazy" className="block w-full" />
+      {/* fade the bottom edge into the card so the crop never looks cut off */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-night" />
     </div>
   );
 }
