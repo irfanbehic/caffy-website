@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useI18n, localeList, type LocaleCode } from "../i18n";
 import { useTheme } from "../lib/theme";
 import { Sun, Moon, Globe, Menu, Close, ChevronDown } from "./icons";
-import { APP_STORE_URL } from "./ui";
+import { APP_STORE_URL, useSectionNav } from "./ui";
 
 function useScrolled(threshold = 12) {
   const [scrolled, setScrolled] = useState(false);
@@ -103,12 +103,13 @@ export function Navbar() {
   const { t } = useI18n();
   const scrolled = useScrolled();
   const [mobile, setMobile] = useState(false);
+  const goTo = useSectionNav();
 
   const links = [
-    { href: "#features", label: t.nav.features },
-    { href: "#calculator", label: t.nav.calculator },
-    { href: "#sleep", label: t.nav.sleep },
-    { href: "#faq", label: t.nav.faq },
+    { id: "features", label: t.nav.features },
+    { id: "calculator", label: t.nav.calculator },
+    { id: "sleep", label: t.nav.sleep },
+    { id: "faq", label: t.nav.faq },
   ];
 
   return (
@@ -120,20 +121,20 @@ export function Navbar() {
       }`}
     >
       <nav className="container-x flex h-16 items-center justify-between">
-        <a href="#top" className="flex items-center gap-2.5">
+        <button onClick={() => goTo("top")} className="flex items-center gap-2.5">
           <img src="./icons/owl.png" alt="Caffy" className="h-9 w-9 rounded-[10px]" />
           <span className="text-[19px] font-bold tracking-tight">Caffy</span>
-        </a>
+        </button>
 
         <div className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
+            <button
+              key={l.id}
+              onClick={() => goTo(l.id)}
               className="rounded-full px-3.5 py-2 text-[14px] font-medium text-ink-soft transition-colors hover:text-ink dark:text-white/65 dark:hover:text-white"
             >
               {l.label}
-            </a>
+            </button>
           ))}
         </div>
 
@@ -169,14 +170,16 @@ export function Navbar() {
           >
             <div className="container-x flex flex-col gap-1 py-4">
               {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setMobile(false)}
-                  className="rounded-xl px-3 py-3 text-[15px] font-medium hover:bg-black/5 dark:hover:bg-white/5"
+                <button
+                  key={l.id}
+                  onClick={() => {
+                    setMobile(false);
+                    goTo(l.id);
+                  }}
+                  className="rounded-xl px-3 py-3 text-left text-[15px] font-medium hover:bg-black/5 dark:hover:bg-white/5"
                 >
                   {l.label}
-                </a>
+                </button>
               ))}
             </div>
           </motion.div>

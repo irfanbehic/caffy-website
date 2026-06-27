@@ -42,11 +42,28 @@ const es: Dict = {
       smoker: "Fumador",
       pregnant: "Embarazo",
     },
+    drinks: {
+      espresso: "Espresso",
+      coffee: "Café",
+      energy: "Energética",
+      tea: "Té",
+      matcha: "Matcha",
+      cola: "Cola",
+    },
     mg: "mg",
+  },
+  viz: {
+    sleepScore: "Puntuación de sueño",
+    stepDown: "Reducción en 7 días",
+    weeklyInsight: "Esta semana",
+    insightLine: "Duermes mejor los días que dejas la cafeína antes de las 14:00.",
+    activeNow: "Activa ahora",
+    untilSafe: "Sueño seguro en",
+    health: "Sincronizado con Apple Health",
   },
   gallery: {
     eyebrow: "Más de cerca",
-    title: "Hecho para mirarlo de un vistazo, no para estudiarlo.",
+    title: "Todo lo que necesitas, de un vistazo.",
     shots: [
       "Metabolismo en vivo",
       "Protección del sueño",
@@ -57,7 +74,7 @@ const es: Dict = {
   },
   features: {
     eyebrow: "Diseñado en torno a tu cuerpo",
-    title: "No es otro temporizador. Es un modelo de ti.",
+    title: "Un modelo de cómo tu cuerpo procesa la cafeína.",
     items: {
       realtime: {
         title: "Nivel de cafeína en tiempo real",
@@ -83,7 +100,7 @@ const es: Dict = {
   },
   science: {
     eyebrow: "La ciencia",
-    title: "Números honestos, no sensaciones.",
+    title: "Las matemáticas detrás de cada número.",
     body: "Caffy modela la cafeína con una curva farmacocinética de vida media y una fase de absorción de 45 minutos, ajustada a los factores que realmente cambian cómo la metabolizas — edad, sensibilidad, embarazo, tabaco y más.",
     formula: "C(t) = C₀ × 0.5^(t / t½)",
     sources: "Modelos basados en FDA, EFSA, NIH y la Sleep Foundation.",

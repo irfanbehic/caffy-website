@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
-import { APP_STORE_URL } from "./ui";
+import { APP_STORE_URL, useSectionNav } from "./ui";
 
 export function Footer() {
   const { t } = useI18n();
+  const goTo = useSectionNav();
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-paper-line dark:border-night-line">
@@ -29,14 +30,14 @@ export function Footer() {
             </p>
             <ul className="mt-4 space-y-2.5 text-[14px]">
               <li>
-                <a href="#features" className="text-muted hover:text-accent">
+                <button onClick={() => goTo("features")} className="text-muted hover:text-accent">
                   {t.nav.features}
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#calculator" className="text-muted hover:text-accent">
+                <button onClick={() => goTo("calculator")} className="text-muted hover:text-accent">
                   {t.nav.calculator}
-                </a>
+                </button>
               </li>
               <li>
                 <a

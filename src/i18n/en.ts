@@ -40,11 +40,28 @@ const en = {
       smoker: "Smoker",
       pregnant: "Pregnant",
     },
+    drinks: {
+      espresso: "Espresso",
+      coffee: "Coffee",
+      energy: "Energy",
+      tea: "Tea",
+      matcha: "Matcha",
+      cola: "Cola",
+    },
     mg: "mg",
+  },
+  viz: {
+    sleepScore: "Sleep score",
+    stepDown: "7-day step-down",
+    weeklyInsight: "This week",
+    insightLine: "You sleep best on days you stop caffeine before 2 PM.",
+    activeNow: "Active now",
+    untilSafe: "Sleep-safe in",
+    health: "Synced with Apple Health",
   },
   gallery: {
     eyebrow: "A closer look",
-    title: "Designed to be glanced at, not studied.",
+    title: "Everything you need, at a glance.",
     shots: [
       "Live metabolism",
       "Sleep protection",
@@ -55,7 +72,7 @@ const en = {
   },
   features: {
     eyebrow: "Built around your body",
-    title: "Not another timer. A model of you.",
+    title: "A model of how your body handles caffeine.",
     items: {
       realtime: {
         title: "Real-time caffeine level",
@@ -81,7 +98,7 @@ const en = {
   },
   science: {
     eyebrow: "The science",
-    title: "Honest numbers, not vibes.",
+    title: "The math behind every number.",
     body: "Caffy models caffeine with a pharmacokinetic half-life curve and a 45-minute absorption phase, adjusted for the factors that actually change how you metabolize it — age, sensitivity, pregnancy, smoking and more.",
     formula: "C(t) = C₀ × 0.5^(t / t½)",
     sources: "Models informed by FDA, EFSA, NIH and the Sleep Foundation.",

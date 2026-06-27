@@ -42,11 +42,28 @@ const de: Dict = {
       smoker: "Raucher",
       pregnant: "Schwanger",
     },
+    drinks: {
+      espresso: "Espresso",
+      coffee: "Kaffee",
+      energy: "Energy",
+      tea: "Tee",
+      matcha: "Matcha",
+      cola: "Cola",
+    },
     mg: "mg",
+  },
+  viz: {
+    sleepScore: "Schlafscore",
+    stepDown: "7-Tage-Reduktion",
+    weeklyInsight: "Diese Woche",
+    insightLine: "Du schläfst besser an Tagen, an denen du vor 14 Uhr aufhörst.",
+    activeNow: "Jetzt aktiv",
+    untilSafe: "Schlaf-sicher in",
+    health: "Mit Apple Health synchronisiert",
   },
   gallery: {
     eyebrow: "Genauer betrachtet",
-    title: "Zum Draufschauen gemacht, nicht zum Studieren.",
+    title: "Alles Wichtige auf einen Blick.",
     shots: [
       "Live-Stoffwechsel",
       "Schlafschutz",
@@ -57,7 +74,7 @@ const de: Dict = {
   },
   features: {
     eyebrow: "Auf deinen Körper abgestimmt",
-    title: "Kein Timer. Ein Modell von dir.",
+    title: "Ein Modell, wie dein Körper Koffein verarbeitet.",
     items: {
       realtime: {
         title: "Koffeinspiegel in Echtzeit",
@@ -83,7 +100,7 @@ const de: Dict = {
   },
   science: {
     eyebrow: "Die Wissenschaft",
-    title: "Ehrliche Zahlen, kein Bauchgefühl.",
+    title: "Die Mathematik hinter jeder Zahl.",
     body: "Caffy modelliert Koffein mit einer pharmakokinetischen Halbwertszeit-Kurve und einer 45-minütigen Aufnahmephase, angepasst an die Faktoren, die deinen Stoffwechsel wirklich verändern – Alter, Empfindlichkeit, Schwangerschaft, Rauchen und mehr.",
     formula: "C(t) = C₀ × 0.5^(t / t½)",
     sources: "Modelle auf Basis von FDA, EFSA, NIH und Sleep Foundation.",

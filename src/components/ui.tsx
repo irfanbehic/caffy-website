@@ -1,9 +1,33 @@
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Apple } from "./icons";
 
 export const APP_STORE_URL =
   "https://apps.apple.com/tr/app/caffy-caffeine-sleep/id6763036774";
+
+/**
+ * Smooth in-page scrolling that also works from the /privacy and /support
+ * routes (navigate home first, then scroll). Fixes the broken `#anchor` links
+ * that a HashRouter would otherwise swallow.
+ */
+export function useSectionNav() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  return (id: string) => {
+    const go = () => {
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    if (pathname !== "/") {
+      navigate("/");
+      window.setTimeout(go, 80);
+    } else {
+      go();
+    }
+  };
+}
 
 /** Scroll-triggered reveal: subtle fade + rise, respects reduced motion. */
 export function Reveal({

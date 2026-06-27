@@ -42,11 +42,28 @@ const ja: Dict = {
       smoker: "喫煙者",
       pregnant: "妊娠中",
     },
+    drinks: {
+      espresso: "エスプレッソ",
+      coffee: "コーヒー",
+      energy: "エナジー",
+      tea: "お茶",
+      matcha: "抹茶",
+      cola: "コーラ",
+    },
     mg: "mg",
+  },
+  viz: {
+    sleepScore: "睡眠スコア",
+    stepDown: "7日間で段階的に減量",
+    weeklyInsight: "今週",
+    insightLine: "14時より前にカフェインをやめた日は、よく眠れています。",
+    activeNow: "現在アクティブ",
+    untilSafe: "安眠OKまで",
+    health: "Apple Healthと同期",
   },
   gallery: {
     eyebrow: "もっと近くで",
-    title: "じっくり見るためではなく、ひと目でわかるように。",
+    title: "必要なものが、ひと目で。",
     shots: [
       "リアルタイム代謝",
       "睡眠の保護",
@@ -57,7 +74,7 @@ const ja: Dict = {
   },
   features: {
     eyebrow: "あなたの体を中心に",
-    title: "ただのタイマーではなく、あなたのモデル。",
+    title: "あなたの体がカフェインをどう処理するかのモデル。",
     items: {
       realtime: {
         title: "リアルタイムのカフェイン量",
@@ -83,7 +100,7 @@ const ja: Dict = {
   },
   science: {
     eyebrow: "サイエンス",
-    title: "感覚ではなく、正直な数字を。",
+    title: "すべての数字の裏にある計算。",
     body: "Caffyは薬物動態にもとづく半減期曲線と45分の吸収フェーズでカフェインをモデル化し、代謝を実際に左右する要因 — 年齢、感受性、妊娠、喫煙など — に合わせて調整します。",
     formula: "C(t) = C₀ × 0.5^(t / t½)",
     sources: "モデルはFDA・EFSA・NIH・Sleep Foundationを参考にしています。",

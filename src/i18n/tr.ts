@@ -42,11 +42,28 @@ const tr: Dict = {
       smoker: "Sigara",
       pregnant: "Hamile",
     },
+    drinks: {
+      espresso: "Espresso",
+      coffee: "Kahve",
+      energy: "Enerji",
+      tea: "Çay",
+      matcha: "Matcha",
+      cola: "Kola",
+    },
     mg: "mg",
+  },
+  viz: {
+    sleepScore: "Uyku skoru",
+    stepDown: "7 günde kademeli azaltma",
+    weeklyInsight: "Bu hafta",
+    insightLine: "Kafeini 14:00’ten önce bıraktığın günlerde daha iyi uyuyorsun.",
+    activeNow: "Şu an aktif",
+    untilSafe: "Uykuya güvenliye",
+    health: "Apple Health ile senkron",
   },
   gallery: {
     eyebrow: "Yakından bak",
-    title: "İncelemek için değil, bir bakışta anlamak için tasarlandı.",
+    title: "İhtiyacın olan her şey, tek bakışta.",
     shots: [
       "Canlı metabolizma",
       "Uyku koruması",
@@ -57,7 +74,7 @@ const tr: Dict = {
   },
   features: {
     eyebrow: "Vücuduna göre kurgulandı",
-    title: "Sıradan bir sayaç değil. Senin modelin.",
+    title: "Vücudunun kafeini nasıl işlediğinin modeli.",
     items: {
       realtime: {
         title: "Gerçek zamanlı kafein seviyesi",
@@ -83,7 +100,7 @@ const tr: Dict = {
   },
   science: {
     eyebrow: "Bilim",
-    title: "Hisler değil, dürüst sayılar.",
+    title: "Her sayının arkasındaki matematik.",
     body: "Caffy kafeini, farmakokinetik bir yarı-ömür eğrisi ve 45 dakikalık emilim fazıyla modeller; metabolizmanı gerçekten değiştiren faktörlere göre ayarlar — yaş, duyarlılık, hamilelik, sigara ve daha fazlası.",
     formula: "C(t) = C₀ × 0.5^(t / t½)",
     sources: "Modeller FDA, EFSA, NIH ve Sleep Foundation verilerine dayanır.",

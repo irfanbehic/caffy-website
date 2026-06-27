@@ -1,12 +1,13 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useI18n } from "../i18n";
-import { AppStoreBadge, Reveal } from "./ui";
+import { AppStoreBadge, Reveal, useSectionNav } from "./ui";
 import { PhoneMock, DashboardFallback } from "./PhoneMock";
 import { ArrowRight, Heart } from "./icons";
 
 export function Hero() {
   const { t } = useI18n();
+  const goTo = useSectionNav();
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -67,10 +68,10 @@ export function Hero() {
           <Reveal delay={0.26}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <AppStoreBadge label={t.hero.primary} />
-              <a href="#calculator" className="btn-ghost">
+              <button onClick={() => goTo("calculator")} className="btn-ghost">
                 {t.hero.secondary}
                 <ArrowRight className="h-4 w-4" />
-              </a>
+              </button>
             </div>
           </Reveal>
 

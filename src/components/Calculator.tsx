@@ -16,10 +16,12 @@ import {
   type Drink,
 } from "../lib/caffeine";
 
+const MAX_DRINKS = 6;
+
 // Compact SVG geometry
 const VB_W = 760;
-const VB_H = 210;
-const PAD = { l: 10, r: 10, t: 16, b: 28 };
+const VB_H = 170;
+const PAD = { l: 10, r: 10, t: 14, b: 24 };
 const PLOT_W = VB_W - PAD.l - PAD.r;
 const PLOT_H = VB_H - PAD.t - PAD.b;
 
@@ -115,10 +117,12 @@ export function Calculator() {
   const onUp = () => (dragRef.current = null);
 
   const addDrink = (kind: string, mg: number) =>
-    setDrinks((ds) => [
-      ...ds,
-      { id: newId(), kind, mg, at: clamp(15 + (ds.length % 4) * 0.7, 6, 20) },
-    ]);
+    setDrinks((ds) =>
+      ds.length >= MAX_DRINKS
+        ? ds
+        : [...ds, { id: newId(), kind, mg, at: clamp(15 + (ds.length % 4) * 0.7, 6, 20) }]
+    );
+  const atMax = drinks.length >= MAX_DRINKS;
   const removeDrink = (id: string) => setDrinks((ds) => ds.filter((d) => d.id !== id));
   const reset = () => {
     setDrinks(seed());
@@ -301,10 +305,11 @@ export function Calculator() {
                     <button
                       key={p.kind}
                       onClick={() => addDrink(p.kind, p.mg)}
-                      className="group flex items-center gap-1.5 rounded-full border border-paper-line bg-paper-surface py-1 pl-1 pr-2.5 text-[12.5px] font-medium transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-soft dark:border-night-line dark:bg-night-surface"
+                      disabled={atMax}
+                      className="group flex items-center gap-1.5 rounded-full border border-paper-line bg-paper-surface py-1 pl-1 pr-2.5 text-[12.5px] font-medium transition-all enabled:hover:-translate-y-0.5 enabled:hover:border-accent/40 enabled:hover:shadow-soft disabled:cursor-not-allowed disabled:opacity-40 dark:border-night-line dark:bg-night-surface"
                     >
                       <img src={`./icons/${p.icon}`} alt="" className="h-5 w-5" />
-                      <span className="capitalize">{p.kind}</span>
+                      <span>{t.calc.drinks[p.kind as keyof typeof t.calc.drinks]}</span>
                       <span className="text-faint">{p.mg}</span>
                     </button>
                   ))}
