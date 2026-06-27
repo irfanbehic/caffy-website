@@ -1,9 +1,8 @@
-// Faithful re-implementation of Caffy's caffeine model for the web demo:
-//   - 45-minute (0.75 h) linear absorption phase after intake
-//   - exponential decay C(t) = C0 * 0.5^(t / halfLife) afterwards
+// Faithful re-implementation of Caffy's caffeine model (matches the app's
+// MetabolismEngine exactly):
+//   - first-order elimination from intake: C(t) = C0 * 0.5^(t / halfLife)
 //   - multiple drinks superimpose (sum of curves)
-
-export const ABSORPTION_H = 0.75; // 45 minutes
+// The app's decay curve has NO absorption ramp — caffeine peaks at intake.
 
 // 24h window, starting at 06:00 so an afternoon coffee visibly decays into night.
 export const DOMAIN_START = 6;
@@ -23,11 +22,13 @@ export interface Profile {
   halfLife: number; // hours
 }
 
+// Half-lives match the app's computedHalfLife (UserProfile.swift):
+//   normal sensitivity 5.0h · high 7.0h · low 3.5h · smoker 3.0h · pregnancy 12h
 export const PROFILES: Profile[] = [
-  { key: "average", halfLife: 5.5 },
-  { key: "sensitive", halfLife: 8 },
-  { key: "fast", halfLife: 4 },
-  { key: "smoker", halfLife: 3 },
+  { key: "average", halfLife: 5.0 },
+  { key: "sensitive", halfLife: 7.0 },
+  { key: "fast", halfLife: 3.5 },
+  { key: "smoker", halfLife: 3.0 },
   { key: "pregnant", halfLife: 12 },
 ];
 
@@ -50,9 +51,7 @@ export const PRESETS: Preset[] = [
 export function drinkAt(drink: Drink, t: number, halfLife: number): number {
   const dt = t - drink.at;
   if (dt <= 0) return 0;
-  if (dt < ABSORPTION_H) return drink.mg * (dt / ABSORPTION_H);
-  const elapsed = dt - ABSORPTION_H;
-  return drink.mg * Math.pow(0.5, elapsed / halfLife);
+  return drink.mg * Math.pow(0.5, dt / halfLife);
 }
 
 /** Total active caffeine at time t. */

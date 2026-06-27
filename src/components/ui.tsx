@@ -67,14 +67,15 @@ export function AppStoreBadge({
       href={APP_STORE_URL}
       target="_blank"
       rel="noreferrer"
-      className={`group inline-flex items-center gap-3 rounded-2xl bg-ink px-5 py-3 text-white transition-transform duration-300 hover:-translate-y-0.5 dark:bg-white dark:text-ink ${className}`}
+      aria-label={label}
+      className={`group inline-flex h-[52px] items-center gap-2.5 rounded-2xl bg-ink px-5 text-white transition-transform duration-300 hover:-translate-y-0.5 dark:bg-white dark:text-ink ${className}`}
     >
-      <Apple className="h-7 w-7" />
-      <span className="flex flex-col leading-tight">
+      <Apple className="h-6 w-6" />
+      <span className="flex flex-col leading-none">
         <span className="text-[10px] font-medium opacity-70">
           Download on the
         </span>
-        <span className="-mt-0.5 text-[17px] font-semibold tracking-tight">
+        <span className="mt-0.5 text-[16px] font-semibold tracking-tight">
           App Store
         </span>
       </span>

@@ -187,7 +187,7 @@ const ja: Dict = {
       },
       {
         h: "お問い合わせ",
-        p: "プライバシーに関するご質問は [YOUR_EMAIL] までメールください。折り返しご連絡します。",
+        p: "プライバシーに関するご質問は support@caffy.com までメールください。折り返しご連絡します。",
       },
     ],
   },
@@ -199,7 +199,7 @@ const ja: Dict = {
     contactTitle: "お問い合わせ",
     contactBody: "メールをください。通常1〜2営業日以内に返信します。",
     emailButton: "サポートにメール",
-    email: "[YOUR_EMAIL]",
+    email: "support@caffy.com",
     topicsTitle: "よくあるトピック",
     topics: [
       {

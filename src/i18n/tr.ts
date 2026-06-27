@@ -4,7 +4,7 @@ const tr: Dict = {
   meta: { code: "tr", name: "Türkçe", flag: "🇹🇷" },
   nav: {
     features: "Özellikler",
-    calculator: "Hesaplayıcı",
+    calculator: "Simülasyon",
     sleep: "Uyku",
     faq: "SSS",
     download: "İndir",
@@ -16,7 +16,7 @@ const tr: Dict = {
     titleB: "olduğunu bil.",
     sub: "Caffy her kahveni, çayını ve enerji içeceğini kaydeder, metabolizmanı gerçek zamanlı modeller — böylece uykunu korur, kontrolün sende olur.",
     primary: "App Store’dan İndir",
-    secondary: "Hesaplayıcıyı dene",
+    secondary: "Simülasyonu dene",
     rating: "Uykusuna değer verenlerin favorisi",
   },
   calc: {
@@ -187,7 +187,7 @@ const tr: Dict = {
       },
       {
         h: "İletişim",
-        p: "Gizlilikle ilgili soruların mı var? Bize [YOUR_EMAIL] adresinden yaz, sana geri döneriz.",
+        p: "Gizlilikle ilgili soruların mı var? Bize support@caffy.com adresinden yaz, sana geri döneriz.",
       },
     ],
   },
@@ -199,7 +199,7 @@ const tr: Dict = {
     contactTitle: "Bize ulaş",
     contactBody: "Bize yaz, genellikle 1–2 iş günü içinde yanıtlarız.",
     emailButton: "Destek e-postası",
-    email: "[YOUR_EMAIL]",
+    email: "support@caffy.com",
     topicsTitle: "Sık konular",
     topics: [
       {

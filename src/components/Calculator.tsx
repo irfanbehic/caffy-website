@@ -156,27 +156,22 @@ export function Calculator() {
         <Reveal delay={0.1}>
           <div className="surface-card mt-8 overflow-hidden p-4 sm:p-6">
             {/* readouts — compact inline */}
-            <div className="flex flex-wrap items-stretch gap-2 sm:gap-3">
-              <Readout label={t.calc.now} value={Math.round(nowVal)} unit={t.calc.mg} />
-              <Readout label={t.calc.peak} value={Math.round(peak)} unit={t.calc.mg} />
-              <Readout
-                label={t.calc.atBedtime}
-                value={Math.round(atBed)}
-                unit={t.calc.mg}
-                color={vColor}
-              />
+            <div className="flex flex-wrap items-stretch gap-2">
+              <Readout label={t.calc.now} value={nowVal} unit={t.calc.mg} />
+              <Readout label={t.calc.peak} value={peak} unit={t.calc.mg} />
+              <Readout label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
               {/* verdict pill fills remaining space */}
               <div
-                className="flex min-w-[180px] flex-1 items-center gap-2.5 rounded-2xl px-4 py-2.5"
+                className="flex min-w-[170px] flex-1 items-center gap-2 rounded-xl px-3 py-2"
                 style={{ background: `${vColor}14` }}
               >
                 <span
-                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
+                  className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
                   style={{ background: vColor }}
                 >
-                  <Bed className="h-3.5 w-3.5 text-white" />
+                  <Bed className="h-3 w-3 text-white" />
                 </span>
-                <p className="text-[12.5px] font-medium leading-snug" style={{ color: vColor }}>
+                <p className="text-[12px] font-medium leading-snug" style={{ color: vColor }}>
                   {vText}
                 </p>
               </div>
@@ -220,14 +215,25 @@ export function Calculator() {
                   </text>
                 ))}
 
-                <path d={areaPath} fill="url(#area)" />
-                <path
+                <motion.path
+                  d={areaPath}
+                  fill="url(#area)"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.9, delay: 0.2 }}
+                />
+                <motion.path
                   d={linePath}
                   fill="none"
                   stroke="#FF6600"
                   strokeWidth={2.5}
                   strokeLinejoin="round"
                   strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
                 />
 
                 {/* bedtime */}
@@ -240,6 +246,15 @@ export function Calculator() {
                   strokeWidth={1.4}
                   strokeDasharray="4 4"
                 />
+                {/* pulsing halo */}
+                <motion.circle
+                  cx={xOf(bedtime)}
+                  cy={yOf(atBed)}
+                  fill={vColor}
+                  initial={{ r: 4, opacity: 0.45 }}
+                  animate={{ r: 12, opacity: 0 }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                />
                 <circle cx={xOf(bedtime)} cy={yOf(atBed)} r={4.5} fill={vColor} />
                 <g
                   transform={`translate(${xOf(bedtime)}, ${PAD.t - 10})`}
@@ -248,7 +263,6 @@ export function Calculator() {
                   onPointerMove={onDrag}
                   onPointerUp={onUp}
                 >
-                  {/* big invisible hit area */}
                   <rect x={-16} y={-14} width={32} height={28} fill="transparent" />
                   <rect x={-13} y={-10} width={26} height={20} rx={7} fill={vColor} />
                   <g transform="translate(-7,-7) scale(0.62)" stroke="#fff" fill="none">
@@ -275,19 +289,25 @@ export function Calculator() {
                       onPointerUp={onUp}
                     >
                       <circle r={18} fill="transparent" />
-                      <circle
-                        r={13}
-                        className="fill-paper-surface stroke-paper-line dark:fill-night-surface dark:stroke-night-line"
-                        strokeWidth={1.5}
-                      />
-                      <image
-                        href={`./icons/${iconFor(d.kind)}`}
-                        x={-9.5}
-                        y={-9.5}
-                        width={19}
-                        height={19}
-                        style={{ pointerEvents: "none" }}
-                      />
+                      <motion.g
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ type: "spring", stiffness: 480, damping: 26 }}
+                      >
+                        <circle
+                          r={13}
+                          className="fill-paper-surface stroke-paper-line dark:fill-night-surface dark:stroke-night-line"
+                          strokeWidth={1.5}
+                        />
+                        <image
+                          href={`./icons/${iconFor(d.kind)}`}
+                          x={-9.5}
+                          y={-9.5}
+                          width={19}
+                          height={19}
+                          style={{ pointerEvents: "none" }}
+                        />
+                      </motion.g>
                     </g>
                   </g>
                 ))}
@@ -383,6 +403,21 @@ export function Calculator() {
   );
 }
 
+/** Smoothly counts up/down to the target value. */
+function AnimatedNumber({ value }: { value: number }) {
+  const [display, setDisplay] = useState(value);
+  useEffect(() => {
+    const controls = animate(display, value, {
+      duration: 0.45,
+      ease: "easeOut",
+      onUpdate: (v) => setDisplay(v),
+    });
+    return () => controls.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  return <>{Math.round(display)}</>;
+}
+
 function Readout({
   label,
   value,
@@ -395,16 +430,16 @@ function Readout({
   color?: string;
 }) {
   return (
-    <div className="flex min-w-[92px] flex-1 flex-col justify-center rounded-2xl border border-paper-line bg-paper-card px-3 py-2 dark:border-night-line dark:bg-night-card sm:min-w-[104px]">
-      <p className="text-[10.5px] font-medium uppercase tracking-wider text-faint">
+    <div className="flex min-w-[80px] flex-1 flex-col justify-center rounded-xl border border-paper-line bg-paper-card px-2.5 py-1.5 dark:border-night-line dark:bg-night-card">
+      <p className="text-[9.5px] font-semibold uppercase tracking-wider text-faint">
         {label}
       </p>
       <p
-        className="mt-0.5 text-[22px] font-bold leading-none tabular-nums sm:text-[26px]"
+        className="mt-0.5 text-[19px] font-bold leading-none tabular-nums sm:text-[21px]"
         style={color ? { color } : undefined}
       >
-        {value}
-        <span className="ml-0.5 text-[12px] font-medium text-faint">{unit}</span>
+        <AnimatedNumber value={value} />
+        <span className="ml-0.5 text-[11px] font-medium text-faint">{unit}</span>
       </p>
     </div>
   );

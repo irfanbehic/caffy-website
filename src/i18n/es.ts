@@ -187,7 +187,7 @@ const es: Dict = {
       },
       {
         h: "Contacto",
-        p: "¿Preguntas sobre privacidad? Escríbenos a [YOUR_EMAIL] y te responderemos.",
+        p: "¿Preguntas sobre privacidad? Escríbenos a support@caffy.com y te responderemos.",
       },
     ],
   },
@@ -199,7 +199,7 @@ const es: Dict = {
     contactTitle: "Contáctanos",
     contactBody: "Escríbenos y normalmente respondemos en 1–2 días laborables.",
     emailButton: "Email de soporte",
-    email: "[YOUR_EMAIL]",
+    email: "support@caffy.com",
     topicsTitle: "Temas frecuentes",
     topics: [
       {

@@ -185,7 +185,7 @@ const en = {
       },
       {
         h: "Contact",
-        p: "Questions about privacy? Email us at [YOUR_EMAIL] and we’ll get back to you.",
+        p: "Questions about privacy? Email us at support@caffy.com and we’ll get back to you.",
       },
     ],
   },
@@ -198,7 +198,7 @@ const en = {
     contactBody:
       "Email us and we’ll usually reply within 1–2 business days.",
     emailButton: "Email support",
-    email: "[YOUR_EMAIL]",
+    email: "support@caffy.com",
     topicsTitle: "Common topics",
     topics: [
       {

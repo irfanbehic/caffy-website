@@ -1,6 +1,6 @@
 import { useI18n } from "../i18n";
 import { Reveal } from "./ui";
-import { Activity, Bed, Leaf, Sparkle, Widget } from "./icons";
+import { Activity, Moon, Leaf, Sparkle, Widget } from "./icons";
 import {
   RealtimeVisual,
   SleepVisual,
@@ -15,7 +15,7 @@ export function Features() {
 
   const rows = [
     { key: "realtime", icon: Activity, title: f.realtime.title, body: f.realtime.body, visual: <RealtimeVisual />, id: undefined },
-    { key: "sleep", icon: Bed, title: f.sleep.title, body: f.sleep.body, visual: <SleepVisual />, id: "sleep" },
+    { key: "sleep", icon: Moon, title: f.sleep.title, body: f.sleep.body, visual: <SleepVisual />, id: "sleep" },
     { key: "detox", icon: Leaf, title: f.detox.title, body: f.detox.body, visual: <DetoxVisual />, id: undefined },
     { key: "insights", icon: Sparkle, title: f.insights.title, body: f.insights.body, visual: <InsightsVisual />, id: undefined },
     { key: "widgets", icon: Widget, title: f.widgets.title, body: f.widgets.body, visual: <WidgetsVisual />, id: undefined },
@@ -50,10 +50,10 @@ export function Features() {
                   y={24}
                 >
                   <div className="max-w-md">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/10 text-accent">
-                      <Icon className="h-[22px] w-[22px]" />
+                    <span className="text-accent">
+                      <Icon className="h-7 w-7" strokeWidth={1.7} />
                     </span>
-                    <h3 className="mt-5 text-[26px] font-bold leading-tight tracking-tight sm:text-[30px]">
+                    <h3 className="mt-4 text-[26px] font-bold leading-tight tracking-tight sm:text-[30px]">
                       {row.title}
                     </h3>
                     <p className="mt-4 text-[16.5px] leading-relaxed text-muted">

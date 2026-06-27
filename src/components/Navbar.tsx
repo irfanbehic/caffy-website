@@ -145,7 +145,7 @@ export function Navbar() {
             href={APP_STORE_URL}
             target="_blank"
             rel="noreferrer"
-            className="btn-primary ml-1 hidden !px-5 !py-2.5 text-[14px] sm:inline-flex"
+            className="btn-primary ml-1 hidden !h-10 !rounded-xl !px-4 text-[14px] sm:inline-flex"
           >
             {t.nav.download}
           </a>

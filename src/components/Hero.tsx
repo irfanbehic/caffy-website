@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useI18n } from "../i18n";
 import { AppStoreBadge, Reveal, useSectionNav } from "./ui";
 import { PhoneMock, DashboardFallback } from "./PhoneMock";
-import { ArrowRight, Heart } from "./icons";
+import { ArrowRight } from "./icons";
 
 export function Hero() {
   const { t } = useI18n();
@@ -25,35 +25,13 @@ export function Hero() {
       <div className="container-x grid items-center gap-12 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:pb-24">
         {/* Copy */}
         <div className="max-w-xl">
-          <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-paper-line bg-paper-surface px-3.5 py-1.5 text-[12.5px] font-semibold text-ink-soft dark:border-night-line dark:bg-night-surface dark:text-white/70">
-              <span className="h-2 w-2 rounded-full bg-caffeine-green" />
-              {t.hero.badge}
-            </span>
-          </Reveal>
-
-          <h1 className="mt-6 text-balance text-[40px] font-extrabold leading-[1.02] tracking-tightest sm:text-[56px] lg:text-[64px]">
+          <h1 className="text-balance text-[40px] font-extrabold leading-[1.02] tracking-tightest sm:text-[56px] lg:text-[64px]">
             <Reveal y={24}>
               <span className="block">{t.hero.titleA}</span>
             </Reveal>
             <Reveal y={24} delay={0.08}>
               <span className="block">
-                <span className="relative whitespace-nowrap text-accent">
-                  {t.hero.titleAccent}
-                  <svg
-                    className="absolute -bottom-1 left-0 h-[0.5em] w-full text-accent/30"
-                    viewBox="0 0 200 12"
-                    preserveAspectRatio="none"
-                    fill="none"
-                  >
-                    <path
-                      d="M2 9C40 3 160 3 198 7"
-                      stroke="currentColor"
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>{" "}
+                <span className="text-accent">{t.hero.titleAccent}</span>{" "}
                 {t.hero.titleB}
               </span>
             </Reveal>
@@ -68,17 +46,13 @@ export function Hero() {
           <Reveal delay={0.26}>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <AppStoreBadge label={t.hero.primary} />
-              <button onClick={() => goTo("calculator")} className="btn-ghost">
+              <button
+                onClick={() => goTo("calculator")}
+                className="btn-ghost h-[52px]"
+              >
                 {t.hero.secondary}
                 <ArrowRight className="h-4 w-4" />
               </button>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.34}>
-            <div className="mt-7 flex items-center gap-2 text-[13.5px] text-faint">
-              <Heart className="h-4 w-4 text-caffeine-red" />
-              {t.hero.rating}
             </div>
           </Reveal>
         </div>

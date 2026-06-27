@@ -2,17 +2,26 @@ import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
 import { Reveal } from "../components/ui";
 import { ArrowRight } from "../components/icons";
+import { privacyDoc } from "../i18n/privacy";
 
-/** Shared layout for the Privacy and Support pages. */
+/** Privacy page — content mirrors the iOS app's privacy policy exactly. */
 export function Privacy() {
-  const { t } = useI18n();
+  const { t, code } = useI18n();
   const p = t.privacy;
+  const doc = privacyDoc[code] ?? privacyDoc.en;
   return (
-    <Article title={p.title} sub={p.updated} backHome={p.backHome} intro={p.intro}>
-      {p.sections.map((s) => (
+    <Article
+      title={p.title}
+      sub={`${doc.updatedLabel} ${doc.date}`}
+      backHome={p.backHome}
+      intro={doc.overview}
+    >
+      {doc.sections.map((s) => (
         <section key={s.h}>
           <h2 className="text-[19px] font-bold tracking-tight">{s.h}</h2>
-          <p className="mt-2 text-[15.5px] leading-relaxed text-muted">{s.p}</p>
+          <p className="mt-2 whitespace-pre-line text-[15.5px] leading-relaxed text-muted">
+            {s.p}
+          </p>
         </section>
       ))}
     </Article>

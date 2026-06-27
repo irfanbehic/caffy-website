@@ -58,10 +58,10 @@
     @apply border-night-line;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-accent-light hover:shadow-glow active:scale-[0.98];
+    @apply inline-flex h-[52px] items-center justify-center gap-2 rounded-2xl bg-accent px-6 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-accent-light hover:shadow-glow active:scale-[0.98];
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-transparent px-5 py-3 text-[15px] font-semibold text-ink transition-colors duration-300 hover:bg-black/[0.03];
+    @apply inline-flex h-[52px] items-center justify-center gap-2 rounded-2xl border border-paper-line bg-transparent px-6 text-[15px] font-semibold text-ink transition-colors duration-300 hover:bg-black/[0.03];
   }
   .dark .btn-ghost {
     @apply border-night-line text-white hover:bg-white/[0.04];
