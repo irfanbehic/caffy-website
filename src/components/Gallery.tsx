@@ -32,7 +32,7 @@ export function Gallery() {
         <div className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {shots.map((s, i) => (
             <Reveal key={s.src} delay={i * 0.06} className="shrink-0 snap-start">
-              <div className="w-[220px] sm:w-[244px]">
+              <div className="w-[265px] sm:w-[300px]">
                 <PhoneMock src={s.src} alt={s.caption}>
                   <DashboardFallback />
                 </PhoneMock>

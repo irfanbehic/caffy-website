@@ -25,6 +25,8 @@ const tr: Dict = {
     subtitle:
       "Bir içecek ekle, uyku saatini sürükle ve başını yastığa koyduğunda sistemde ne kadar kafein kaldığını gör.",
     addLabel: "İçecek ekle",
+    added: "Eklenenler",
+    remove: "Kaldır",
     profileLabel: "Metabolizman",
     bedtimeLabel: "Uyku saati",
     atBedtime: "Uyurken",

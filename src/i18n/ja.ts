@@ -25,6 +25,8 @@ const ja: Dict = {
     subtitle:
       "ドリンクを追加し、就寝時刻をドラッグして、枕に頭をつける頃にどれだけカフェインが残っているか確かめましょう。",
     addLabel: "ドリンクを追加",
+    added: "追加済み",
+    remove: "削除",
     profileLabel: "あなたの代謝",
     bedtimeLabel: "就寝時刻",
     atBedtime: "就寝時",

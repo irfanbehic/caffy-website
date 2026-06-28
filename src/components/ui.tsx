@@ -58,17 +58,23 @@ export function Reveal({
 export function AppStoreBadge({
   label,
   className = "",
+  onDark = false,
 }: {
   label: string;
   className?: string;
+  /** force the white badge regardless of theme (for use on dark cards) */
+  onDark?: boolean;
 }) {
+  const colors = onDark
+    ? "bg-white text-ink"
+    : "bg-ink text-white dark:bg-white dark:text-ink";
   return (
     <a
       href={APP_STORE_URL}
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className={`group inline-flex h-[52px] items-center gap-2.5 rounded-2xl bg-ink px-5 text-white transition-transform duration-300 hover:-translate-y-0.5 dark:bg-white dark:text-ink ${className}`}
+      className={`group inline-flex h-[52px] items-center gap-2.5 rounded-2xl px-5 transition-transform duration-300 hover:-translate-y-0.5 ${colors} ${className}`}
     >
       <Apple className="h-6 w-6" />
       <span className="flex flex-col leading-none">

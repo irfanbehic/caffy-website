@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { animate, motion } from "framer-motion";
 import { useI18n } from "../i18n";
 import { Reveal } from "./ui";
-import { Plus, Bed, Activity } from "./icons";
+import { Bed } from "./icons";
 import {
   PRESETS,
   PROFILES,
@@ -244,9 +244,9 @@ export function Calculator() {
                   <text
                     key={h}
                     x={xOf(h)}
-                    y={VB_H - 9}
+                    y={VB_H - 8}
                     textAnchor="middle"
-                    className="fill-ink-faint text-[13px]"
+                    className="fill-ink-faint text-[9px]"
                   >
                     {clockLabel(h)}
                   </text>
@@ -352,39 +352,62 @@ export function Calculator() {
             </div>
 
             {/* controls */}
-            <div className="mt-4 grid gap-4 border-t border-paper-line pt-4 lg:grid-cols-2 dark:border-night-line">
+            <div className="mt-5 grid gap-5 border-t border-paper-line pt-5 lg:grid-cols-2 dark:border-night-line">
+              {/* left: add + remove drinks */}
               <div>
-                <p className="mb-2.5 flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wider text-faint">
-                  <Plus className="h-3.5 w-3.5" /> {t.calc.addLabel}
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-faint">
+                  {t.calc.addLabel}
                 </p>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {PRESETS.map((p) => (
                     <button
                       key={p.kind}
                       onClick={() => addDrink(p.kind, p.mg)}
                       disabled={atMax}
-                      className="group flex items-center gap-1.5 rounded-full border border-paper-line bg-paper-surface py-1 pl-1 pr-2.5 text-[12.5px] font-medium transition-all enabled:hover:-translate-y-0.5 enabled:hover:border-accent/40 enabled:hover:shadow-soft disabled:cursor-not-allowed disabled:opacity-40 dark:border-night-line dark:bg-night-surface"
+                      className="flex items-center gap-1.5 rounded-full border border-paper-line bg-paper-surface py-1 pl-1 pr-2.5 text-[13px] font-medium transition-all enabled:hover:-translate-y-0.5 enabled:hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40 dark:border-night-line dark:bg-night-surface"
                     >
                       <img src={`./icons/${p.icon}`} alt="" className="h-5 w-5" />
-                      <span>{t.calc.drinks[p.kind as keyof typeof t.calc.drinks]}</span>
+                      {t.calc.drinks[p.kind as keyof typeof t.calc.drinks]}
                       <span className="text-faint">{p.mg}</span>
                     </button>
                   ))}
                 </div>
+
+                {/* added drinks — tap × to remove */}
+                {drinks.length > 0 && (
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <span className="text-[11px] uppercase tracking-wider text-faint">
+                      {t.calc.added}
+                    </span>
+                    {drinks.map((d) => (
+                      <button
+                        key={d.id}
+                        onClick={() => removeDrink(d.id)}
+                        className="group flex items-center gap-1 rounded-full bg-black/[0.05] py-0.5 pl-0.5 pr-2 text-[12px] text-muted transition-colors hover:bg-caffeine-red/10 hover:text-caffeine-red dark:bg-white/[0.06]"
+                        title={t.calc.remove}
+                      >
+                        <img src={`./icons/${iconFor(d.kind)}`} alt="" className="h-4 w-4" />
+                        <span className="tabular-nums">{clockLabel(d.at)}</span>
+                        <span className="text-[14px] leading-none opacity-60 group-hover:opacity-100">×</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
+              {/* right: metabolism + bedtime */}
               <div>
-                <p className="mb-2.5 flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wider text-faint">
-                  <Activity className="h-3.5 w-3.5" /> {t.calc.profileLabel}
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-faint">
+                  {t.calc.profileLabel}
                 </p>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {PROFILES.map((p) => (
                     <button
                       key={p.key}
                       onClick={() => setProfileKey(p.key)}
-                      className={`rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition-all ${
+                      className={`rounded-full border px-3 py-1.5 text-[13px] font-medium transition-all ${
                         profileKey === p.key
-                          ? "border-accent bg-accent text-white shadow-soft"
+                          ? "border-accent bg-accent text-white"
                           : "border-paper-line bg-paper-surface hover:border-accent/40 dark:border-night-line dark:bg-night-surface"
                       }`}
                     >
@@ -395,16 +418,35 @@ export function Calculator() {
                     </button>
                   ))}
                 </div>
-                <div className="mt-2.5 flex items-center justify-between gap-3">
-                  <span className="flex items-center gap-1.5 text-[12.5px] text-muted">
-                    <Bed className="h-3.5 w-3.5" /> {t.calc.bedtimeLabel}
-                    <span className="font-semibold tabular-nums text-ink dark:text-white">
-                      {clockLabel(bedtime)}
+
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex items-center gap-1.5 text-[13px] text-muted">
+                      <Bed className="h-4 w-4" /> {t.calc.bedtimeLabel}
                     </span>
-                  </span>
+                    <div className="flex items-center gap-1 rounded-full border border-paper-line p-0.5 dark:border-night-line">
+                      <button
+                        onClick={() => setBedtime((b) => clamp(b - 0.5, 19, 28))}
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-[16px] leading-none text-muted hover:bg-black/[0.05] dark:hover:bg-white/[0.06]"
+                        aria-label="-30 min"
+                      >
+                        −
+                      </button>
+                      <span className="w-12 text-center text-[13px] font-semibold tabular-nums">
+                        {clockLabel(bedtime)}
+                      </span>
+                      <button
+                        onClick={() => setBedtime((b) => clamp(b + 0.5, 19, 28))}
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-[16px] leading-none text-muted hover:bg-black/[0.05] dark:hover:bg-white/[0.06]"
+                        aria-label="+30 min"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
                   <button
                     onClick={reset}
-                    className="text-[12.5px] font-medium text-faint underline-offset-4 hover:text-accent hover:underline"
+                    className="text-[13px] font-medium text-faint underline-offset-4 hover:text-accent hover:underline"
                   >
                     {t.calc.reset}
                   </button>
@@ -412,7 +454,7 @@ export function Calculator() {
               </div>
             </div>
 
-            <p className="mt-3.5 text-[12px] leading-relaxed text-faint">{t.calc.note}</p>
+            <p className="mt-4 text-[12px] leading-relaxed text-faint">{t.calc.note}</p>
           </div>
         </Reveal>
       </div>

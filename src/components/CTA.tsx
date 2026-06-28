@@ -7,13 +7,13 @@ export function CTA() {
     <section className="pb-24 pt-4 sm:pb-32">
       <div className="container-x">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-navy-deep via-navy to-navy-soft px-8 py-16 text-center text-white sm:px-12 sm:py-20">
-            {/* soft warm glow that fades to transparent (no hard clipped edge) */}
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-b from-[#171719] to-[#0b0b0d] px-8 py-16 text-center text-white sm:px-12 sm:py-20">
+            {/* soft warm brand glow — identical in light & dark */}
             <div
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(55% 75% at 18% 25%, rgba(255,102,0,0.20), transparent 62%), radial-gradient(45% 60% at 88% 10%, rgba(255,133,51,0.14), transparent 60%)",
+                  "radial-gradient(60% 80% at 50% 0%, rgba(255,102,0,0.22), transparent 60%)",
               }}
             />
 
@@ -29,7 +29,7 @@ export function CTA() {
               {t.cta.sub}
             </p>
             <div className="mt-9 flex justify-center">
-              <AppStoreBadge label={t.cta.button} />
+              <AppStoreBadge label={t.cta.button} onDark />
             </div>
           </div>
         </Reveal>

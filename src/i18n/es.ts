@@ -25,6 +25,8 @@ const es: Dict = {
     subtitle:
       "Añade una bebida, arrastra tu hora de dormir y mira cuánta cafeína sigue en tu sistema cuando tu cabeza toca la almohada.",
     addLabel: "Añadir bebida",
+    added: "Añadidas",
+    remove: "Quitar",
     profileLabel: "Tu metabolismo",
     bedtimeLabel: "Hora de dormir",
     atBedtime: "Al dormir",

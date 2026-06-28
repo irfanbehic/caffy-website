@@ -25,6 +25,8 @@ const de: Dict = {
     subtitle:
       "Füge ein Getränk hinzu, ziehe deine Schlafenszeit und sieh, wie viel Koffein noch in dir steckt, wenn dein Kopf das Kissen berührt.",
     addLabel: "Getränk hinzufügen",
+    added: "Hinzugefügt",
+    remove: "Entfernen",
     profileLabel: "Dein Stoffwechsel",
     bedtimeLabel: "Schlafenszeit",
     atBedtime: "Beim Schlafen",

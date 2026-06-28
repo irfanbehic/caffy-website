@@ -23,6 +23,8 @@ const en = {
     subtitle:
       "Add a drink, drag your bedtime, and see how much caffeine is still in your system when your head hits the pillow.",
     addLabel: "Add a drink",
+    added: "Added",
+    remove: "Remove",
     profileLabel: "Your metabolism",
     bedtimeLabel: "Bedtime",
     atBedtime: "At bedtime",
