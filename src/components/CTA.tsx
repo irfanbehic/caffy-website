@@ -8,9 +8,14 @@ export function CTA() {
       <div className="container-x">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-navy-deep via-navy to-navy-soft px-8 py-16 text-center text-white sm:px-12 sm:py-20">
-            {/* warm accent glow + grid, subtle */}
-            <div className="pointer-events-none absolute -left-20 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-accent/25 blur-[110px]" />
-            <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent/15 blur-[90px]" />
+            {/* soft warm glow that fades to transparent (no hard clipped edge) */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(55% 75% at 18% 25%, rgba(255,102,0,0.20), transparent 62%), radial-gradient(45% 60% at 88% 10%, rgba(255,133,51,0.14), transparent 60%)",
+              }}
+            />
 
             <img
               src="./icons/owl.png"

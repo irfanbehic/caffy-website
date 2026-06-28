@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { animate, AnimatePresence, motion } from "framer-motion";
+import { animate, motion } from "framer-motion";
 import { useI18n } from "../i18n";
 import { Reveal } from "./ui";
 import { Plus, Bed, Activity } from "./icons";
@@ -51,6 +51,7 @@ export function Calculator() {
 
   const targetHalf = PROFILES.find((p) => p.key === profileKey)!.halfLife;
   const [half, setHalf] = useState(targetHalf);
+  const [maxY, setMaxY] = useState(160);
   const svgRef = useRef<SVGSVGElement>(null);
   const dragRef = useRef<string | null>(null);
   // Per-drink weight (0→1) so a newly added drink grows into the curve
@@ -76,10 +77,20 @@ export function Calculator() {
 
   const curve = buildCurve(effective, half);
   const peak = peakOf(curve);
-  // Scale the y-axis to the FULL-weight peak so it stays fixed while a freshly
-  // added drink grows in — otherwise the whole curve visibly rescales mid-add.
+  // Target the y-axis to the full-weight peak, then EASE the axis toward it so
+  // adding a drink grows the curve and the axis together — no snap, no rescale
+  // glitch, and the existing curve never compresses.
   const axisPeak = peakOf(buildCurve(drinks, half));
-  const maxY = Math.max(150, Math.ceil((axisPeak * 1.18) / 20) * 20);
+  const targetMaxY = Math.max(150, Math.ceil((axisPeak * 1.18) / 20) * 20);
+  useEffect(() => {
+    const c = animate(maxY, targetMaxY, {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setMaxY(v),
+    });
+    return () => c.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetMaxY]);
   const yOf = (mg: number) => PAD.t + (1 - mg / maxY) * PLOT_H;
 
   const atBed = totalAt(effective, bedtime, half);
@@ -186,27 +197,21 @@ export function Calculator() {
         </div>
 
         <Reveal delay={0.1}>
-          <div className="surface-card mt-8 overflow-hidden p-4 sm:p-6">
-            {/* readouts — fixed 3-col grid so changing digits never reflow the row */}
-            <div className="grid grid-cols-3 gap-2">
-              <Readout label={t.calc.now} value={nowVal} unit={t.calc.mg} />
-              <Readout label={t.calc.peak} value={peak} unit={t.calc.mg} />
-              <Readout label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
-            </div>
-            {/* verdict — its own row with reserved height so text length can't jump it */}
-            <div
-              className="mt-2 flex min-h-[42px] items-center gap-2 rounded-xl px-3 py-2"
-              style={{ background: `${vColor}14` }}
-            >
-              <span
-                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                style={{ background: vColor }}
-              >
-                <Bed className="h-3 w-3 text-white" />
-              </span>
-              <p className="text-[12.5px] font-medium leading-snug" style={{ color: vColor }}>
-                {vText}
-              </p>
+          <div className="surface-card mt-8 p-4 sm:p-6">
+            {/* one calm panel: three stats + a quiet verdict line */}
+            <div className="rounded-2xl border border-paper-line bg-paper-card dark:border-night-line dark:bg-night-card">
+              <div className="grid grid-cols-3 divide-x divide-paper-line dark:divide-night-line">
+                <Stat label={t.calc.now} value={nowVal} unit={t.calc.mg} />
+                <Stat label={t.calc.peak} value={peak} unit={t.calc.mg} />
+                <Stat label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
+              </div>
+              <div className="flex items-start gap-2 border-t border-paper-line px-4 py-3 dark:border-night-line">
+                <span
+                  className="mt-1 h-2 w-2 shrink-0 rounded-full"
+                  style={{ background: vColor }}
+                />
+                <p className="text-[12.5px] leading-snug text-muted">{vText}</p>
+              </div>
             </div>
 
             {/* chart */}
@@ -366,26 +371,6 @@ export function Calculator() {
                     </button>
                   ))}
                 </div>
-                <AnimatePresence>
-                  {drinks.length > 0 && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="mt-2.5 flex flex-wrap gap-1.5"
-                    >
-                      {drinks.map((d) => (
-                        <button
-                          key={d.id}
-                          onClick={() => removeDrink(d.id)}
-                          className="flex items-center gap-1 rounded-full bg-black/[0.04] px-2 py-0.5 text-[11.5px] text-muted hover:bg-caffeine-red/10 hover:text-caffeine-red dark:bg-white/[0.05]"
-                        >
-                          {clockLabel(d.at)}·{d.mg}
-                          <span className="text-[13px] leading-none">×</span>
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
 
               <div>
@@ -450,7 +435,7 @@ function AnimatedNumber({ value }: { value: number }) {
   return <>{Math.round(display)}</>;
 }
 
-function Readout({
+function Stat({
   label,
   value,
   unit,
@@ -462,19 +447,18 @@ function Readout({
   color?: string;
 }) {
   return (
-    <div className="flex flex-col justify-center overflow-hidden rounded-xl border border-paper-line bg-paper-card px-2.5 py-1.5 dark:border-night-line dark:bg-night-card">
+    <div className="px-3 py-3 text-center">
       <p className="truncate text-[9.5px] font-semibold uppercase tracking-wider text-faint">
         {label}
       </p>
       <p
-        className="mt-0.5 flex items-baseline text-[19px] font-bold leading-none sm:text-[21px]"
+        className="mt-1 flex items-baseline justify-center text-[20px] font-bold leading-none sm:text-[22px]"
         style={color ? { color } : undefined}
       >
-        {/* fixed-width number box so adding a digit never shifts the unit */}
-        <span className="inline-block min-w-[3ch] text-right tabular-nums">
+        <span className="tabular-nums">
           <AnimatedNumber value={value} />
         </span>
-        <span className="ml-0.5 text-[11px] font-medium text-faint">{unit}</span>
+        <span className="ml-1 text-[11px] font-medium text-faint">{unit}</span>
       </p>
     </div>
   );

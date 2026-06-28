@@ -10,12 +10,12 @@ export function Gallery() {
     { src: "./screens/metabolism.jpg", caption: c[0] },
     { src: "./screens/sleep.jpg", caption: c[1] },
     { src: "./screens/insights-detox.jpg", caption: c[2] },
-    { src: "./screens/insigts-ai-premium.jpg", caption: c[3] },
+    { src: "./screens/insights.jpg", caption: c[3] },
     { src: "./screens/log-week.jpg", caption: c[4] },
   ];
 
   return (
-    <section className="overflow-hidden py-20 sm:py-28">
+    <section className="py-20 sm:py-28">
       <div className="container-x">
         <div className="max-w-2xl">
           <Reveal>
@@ -27,18 +27,12 @@ export function Gallery() {
             </h2>
           </Reveal>
         </div>
-      </div>
 
-      {/* edge-to-edge scroll rail */}
-      <div className="mt-14">
-        <div className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-6 sm:gap-7 sm:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* scroll rail aligned with the heading (starts at the container's left) */}
+        <div className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:gap-7 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {shots.map((s, i) => (
-            <Reveal
-              key={s.src}
-              delay={i * 0.06}
-              className={`shrink-0 snap-center ${i % 2 === 1 ? "sm:translate-y-7" : ""}`}
-            >
-              <div className="w-[230px] sm:w-[260px]">
+            <Reveal key={s.src} delay={i * 0.06} className="shrink-0 snap-start">
+              <div className="w-[220px] sm:w-[244px]">
                 <PhoneMock src={s.src} alt={s.caption}>
                   <DashboardFallback />
                 </PhoneMock>

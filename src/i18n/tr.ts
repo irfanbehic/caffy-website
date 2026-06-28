@@ -11,9 +11,9 @@ const tr: Dict = {
   },
   hero: {
     badge: "Bilime dayalı kafein takibi",
-    titleA: "Şu an vücudunda tam olarak",
-    titleAccent: "ne kadar kafein",
-    titleB: "olduğunu bil.",
+    titleA: "Vücudundaki",
+    titleAccent: "kafeini",
+    titleB: "gerçek zamanlı gör.",
     sub: "Caffy her kahveni, çayını ve enerji içeceğini kaydeder, metabolizmanı gerçek zamanlı modeller — böylece uykunu korur, kontrolün sende olur.",
     primary: "App Store’dan İndir",
     secondary: "Simülasyonu dene",

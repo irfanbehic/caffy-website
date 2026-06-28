@@ -6,7 +6,7 @@ import { ChevronDown } from "./icons";
 
 export function FAQ() {
   const { t } = useI18n();
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <section id="faq" className="scroll-mt-20 py-20 sm:py-28">
