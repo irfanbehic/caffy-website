@@ -9,7 +9,9 @@ import {
   buildCurve,
   totalAt,
   peakOf,
-  verdictFor,
+  sleepScore,
+  readinessFor,
+  impactFor,
   clockLabel,
   DOMAIN_START,
   DOMAIN_END,
@@ -95,15 +97,20 @@ export function Calculator() {
 
   const atBed = totalAt(effective, bedtime, half);
   const nowVal = totalAt(effective, 18, half); // demo "now" = 18:00
-  const verdict = verdictFor(atBed);
-  const vColor =
-    verdict === "safe" ? "#00C48C" : verdict === "caution" ? "#FFB800" : "#FF4757";
-  const vText =
-    verdict === "safe"
-      ? t.calc.verdictSafe
-      : verdict === "caution"
-      ? t.calc.verdictCaution
-      : t.calc.verdictPoor;
+
+  // App-style sleep result (mirrors SleepEngine)
+  const score = sleepScore(effective, bedtime, half);
+  const readiness = readinessFor(score); // good | fair | poor | critical
+  const impact = impactFor(atBed); // minimal | mild | elevated | high
+  const READINESS_COLOR: Record<typeof readiness, string> = {
+    good: "#00C48C",
+    fair: "#FFB800",
+    poor: "#FF8A3D",
+    critical: "#FF4757",
+  };
+  const vColor = READINESS_COLOR[readiness];
+  const sl = t.calc.sleep;
+  const recText = sl.rec[readiness];
 
   const linePath = curve
     .map((p, i) => `${i ? "L" : "M"}${xOf(p.t).toFixed(1)} ${yOf(p.mg).toFixed(1)}`)
@@ -198,7 +205,7 @@ export function Calculator() {
 
         <Reveal delay={0.1}>
           <div className="surface-card mt-8 p-4 sm:p-6">
-            {/* big live number (Apple-Health style) + quiet secondary stats */}
+            {/* big live number + secondary stats (Apple-Health style) */}
             <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">
@@ -210,14 +217,37 @@ export function Calculator() {
                   </span>
                   <span className="text-[15px] font-medium text-faint">{t.calc.mg}</span>
                 </p>
-                <div className="mt-2.5 flex items-center gap-2">
-                  <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: vColor }} />
-                  <p className="text-[12.5px] leading-snug text-muted">{vText}</p>
-                </div>
               </div>
               <div className="flex gap-6">
                 <MiniStat label={t.calc.peak} value={peak} unit={t.calc.mg} />
-                <MiniStat label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
+                <div>
+                  <p className="text-[10.5px] font-semibold uppercase tracking-wider text-faint">
+                    {t.calc.atBedtime}
+                  </p>
+                  <p
+                    className="mt-1 flex items-baseline gap-1 text-[20px] font-bold leading-none tabular-nums"
+                    style={{ color: vColor }}
+                  >
+                    <AnimatedNumber value={atBed} />
+                    <span className="text-[11px] font-medium text-faint">{t.calc.mg}</span>
+                  </p>
+                  <p className="mt-0.5 text-[10.5px] font-medium" style={{ color: vColor }}>
+                    {sl.impact[impact]}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* app-style sleep result */}
+            <div className="mt-4 flex items-center gap-3 rounded-2xl border border-paper-line bg-paper-card p-3 dark:border-night-line dark:bg-night-card">
+              {/* score ring */}
+              <ScoreRing score={score} color={vColor} />
+              <div className="min-w-0">
+                <p className="flex items-baseline gap-1.5 text-[14px] font-semibold">
+                  <span style={{ color: vColor }}>{sl.readiness[readiness]}</span>
+                  <span className="text-[12px] font-normal text-faint">· {sl.score}</span>
+                </p>
+                <p className="mt-0.5 text-[12.5px] leading-snug text-muted">{recText}</p>
               </div>
             </div>
 
@@ -502,6 +532,39 @@ function AnimatedNumber({ value }: { value: number }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
   return <>{Math.round(display)}</>;
+}
+
+function ScoreRing({ score, color }: { score: number; color: string }) {
+  const r = 18;
+  const c = 2 * Math.PI * r;
+  return (
+    <div className="relative h-12 w-12 shrink-0">
+      <svg viewBox="0 0 44 44" className="h-full w-full -rotate-90">
+        <circle
+          cx="22"
+          cy="22"
+          r={r}
+          className="stroke-paper-line dark:stroke-night-line"
+          strokeWidth="4"
+          fill="none"
+        />
+        <circle
+          cx="22"
+          cy="22"
+          r={r}
+          stroke={color}
+          strokeWidth="4"
+          fill="none"
+          strokeLinecap="round"
+          strokeDasharray={c}
+          strokeDashoffset={c * (1 - score / 100)}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center text-[14px] font-bold tabular-nums">
+        <AnimatedNumber value={score} />
+      </div>
+    </div>
+  );
 }
 
 function MiniStat({

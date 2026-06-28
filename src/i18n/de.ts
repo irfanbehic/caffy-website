@@ -53,6 +53,18 @@ const de: Dict = {
       cola: "Cola",
     },
     mg: "mg",
+    sleep: {
+      score: "Schlafscore",
+      impactLabel: "Einfluss auf den Schlaf",
+      readiness: { good: "Gut", fair: "Mäßig", poor: "Schwach", critical: "Kritisch" },
+      impact: { minimal: "Minimal", mild: "Leicht", elevated: "Erhöht", high: "Hoch" },
+      rec: {
+        good: "Du bist bestens für den Schlaf — keine Änderung nötig.",
+        fair: "Mäßiges Koffein zur Schlafenszeit. Sollte ok sein, aber nicht mehr.",
+        poor: "Hohes Koffein zur Schlafenszeit erwartet. Nichts mehr trinken — leichte Bewegung hilft.",
+        critical: "Dein Schlaf wird wohl stark beeinträchtigt. Früher schlafen und morgen weniger Koffein.",
+      },
+    },
   },
   viz: {
     sleepScore: "Schlafscore",

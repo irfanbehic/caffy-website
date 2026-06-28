@@ -51,6 +51,18 @@ const en = {
       cola: "Cola",
     },
     mg: "mg",
+    sleep: {
+      score: "Sleep score",
+      impactLabel: "Impact on sleep",
+      readiness: { good: "Good", fair: "Fair", poor: "Poor", critical: "Critical" },
+      impact: { minimal: "Minimal", mild: "Mild", elevated: "Elevated", high: "High" },
+      rec: {
+        good: "You're in great shape for sleep tonight — no changes needed.",
+        fair: "Moderate caffeine at bedtime. You should be fine, but skip any more.",
+        poor: "High caffeine expected at bedtime. Avoid more — light exercise helps you metabolize faster.",
+        critical: "Sleep will likely be significantly impacted. Consider an earlier bedtime and less caffeine tomorrow.",
+      },
+    },
   },
   viz: {
     sleepScore: "Sleep score",

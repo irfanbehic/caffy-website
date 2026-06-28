@@ -53,6 +53,18 @@ const es: Dict = {
       cola: "Cola",
     },
     mg: "mg",
+    sleep: {
+      score: "Puntuación de sueño",
+      impactLabel: "Impacto en el sueño",
+      readiness: { good: "Bueno", fair: "Regular", poor: "Malo", critical: "Crítico" },
+      impact: { minimal: "Mínimo", mild: "Leve", elevated: "Elevado", high: "Alto" },
+      rec: {
+        good: "Estás genial para dormir — no hace falta cambiar nada.",
+        fair: "Cafeína moderada al dormir. Deberías estar bien, pero no tomes más.",
+        poor: "Se espera cafeína alta al dormir. No tomes más — el ejercicio ligero ayuda.",
+        critical: "Tu sueño se verá muy afectado. Acuéstate antes y reduce la cafeína mañana.",
+      },
+    },
   },
   viz: {
     sleepScore: "Puntuación de sueño",

@@ -53,6 +53,18 @@ const tr: Dict = {
       cola: "Kola",
     },
     mg: "mg",
+    sleep: {
+      score: "Uyku skoru",
+      impactLabel: "Uykuya etkisi",
+      readiness: { good: "İyi", fair: "Orta", poor: "Zayıf", critical: "Kritik" },
+      impact: { minimal: "Minimal", mild: "Hafif", elevated: "Yüksek", high: "Çok yüksek" },
+      rec: {
+        good: "Uyku için harika durumdasın — değişiklik gerekmez.",
+        fair: "Yatakta orta düzey kafein. İyi olmalısın ama daha fazla alma.",
+        poor: "Yatakta yüksek kafein bekleniyor. Daha fazla alma — hafif egzersiz metabolizmayı hızlandırır.",
+        critical: "Uykun ciddi etkilenebilir. Daha erken yatmayı ve yarın daha az kafeini düşün.",
+      },
+    },
   },
   viz: {
     sleepScore: "Uyku skoru",

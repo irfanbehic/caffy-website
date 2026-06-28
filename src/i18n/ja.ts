@@ -53,6 +53,18 @@ const ja: Dict = {
       cola: "コーラ",
     },
     mg: "mg",
+    sleep: {
+      score: "睡眠スコア",
+      impactLabel: "睡眠への影響",
+      readiness: { good: "良好", fair: "まずまず", poor: "低い", critical: "危険" },
+      impact: { minimal: "最小", mild: "軽度", elevated: "高め", high: "高い" },
+      rec: {
+        good: "今夜の睡眠はばっちり — 変更は不要です。",
+        fair: "就寝時のカフェインは中程度。問題ないはずですが、これ以上は控えて。",
+        poor: "就寝時に高いカフェインが予想されます。これ以上控え、軽い運動が代謝を助けます。",
+        critical: "睡眠に大きく影響しそうです。早めの就寝と、明日のカフェイン削減を。",
+      },
+    },
   },
   viz: {
     sleepScore: "睡眠スコア",

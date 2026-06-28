@@ -91,8 +91,52 @@ export function verdictFor(mgAtBedtime: number): Verdict {
   return "poor";
 }
 
-/** Format a domain hour (6..30) into a 24h clock label. */
+// ── Sleep model (mirrors the app's SleepEngine / SleepScoreRing) ──
+
+/** Sleep score 0-100 (SleepEngine.calculateSleepScore). */
+export function sleepScore(
+  drinks: Drink[],
+  bedtime: number,
+  halfLife: number
+): number {
+  const atBed = totalAt(drinks, bedtime, halfLife);
+  let s = 100;
+  if (atBed > 100) s -= 50;
+  else if (atBed > 50) s -= 35;
+  else if (atBed > 20) s -= 15;
+  if (atBed <= 20 && drinks.length) {
+    const last = Math.max(...drinks.map((d) => d.at));
+    const h = bedtime - last;
+    if (h < 3) s -= 25;
+    else if (h < 6) s -= 10;
+  }
+  const recent = drinks.some((d) => d.at > bedtime - 6);
+  if (!recent) s += 10;
+  return Math.max(0, Math.min(100, Math.round(s)));
+}
+
+export type Readiness = "good" | "fair" | "poor" | "critical";
+/** Score → readiness label (SleepDetailView). */
+export function readinessFor(score: number): Readiness {
+  if (score >= 80) return "good";
+  if (score >= 60) return "fair";
+  if (score >= 40) return "poor";
+  return "critical";
+}
+
+export type Impact = "minimal" | "mild" | "elevated" | "high";
+/** Caffeine-at-bedtime → impact level (CaffeineImpactLevel). */
+export function impactFor(mgAtBedtime: number): Impact {
+  if (mgAtBedtime < 20) return "minimal";
+  if (mgAtBedtime < 50) return "mild";
+  if (mgAtBedtime < 100) return "elevated";
+  return "high";
+}
+
+/** Format a domain hour (6..30) into an HH:MM clock label (handles half hours). */
 export function clockLabel(t: number): string {
-  const h = ((Math.round(t) % 24) + 24) % 24;
-  return `${String(h).padStart(2, "0")}:00`;
+  const total = Math.round(t * 60);
+  const h = ((Math.floor(total / 60) % 24) + 24) % 24;
+  const m = ((total % 60) + 60) % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }

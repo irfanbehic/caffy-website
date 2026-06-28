@@ -7,6 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0A0A0B" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
+    <script>
+      // Apply theme before paint to avoid a flash (works with the prerendered HTML)
+      (function () {
+        try {
+          var t = localStorage.getItem("caffy.theme");
+          var q = new URLSearchParams(location.search).get("theme");
+          var dark = q === "dark" || (q !== "light" && (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)));
+          if (dark) document.documentElement.classList.add("dark");
+        } catch (e) {}
+      })();
+    </script>
 
     <title>Caffy — Caffeine &amp; Sleep Tracker</title>
     <meta
