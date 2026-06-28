@@ -17,12 +17,16 @@ export function Hero() {
   const phoneY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -50]);
 
   return (
-    <section id="top" ref={ref} className="relative overflow-hidden pt-28 sm:pt-32">
+    <section
+      id="top"
+      ref={ref}
+      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-12 pt-24 sm:pt-28 lg:pb-16 lg:pt-20"
+    >
       <div className="bg-grid pointer-events-none absolute inset-0 -z-10" />
       {/* soft warm glow, not a gradient blob hero */}
       <div className="pointer-events-none absolute -top-24 right-[-10%] -z-10 h-[520px] w-[520px] rounded-full bg-accent/10 blur-[120px]" />
 
-      <div className="container-x grid items-center gap-12 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6 lg:pb-24">
+      <div className="container-x grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
         {/* Copy */}
         <div className="max-w-xl">
           <h1 className="text-balance text-[40px] font-extrabold leading-[1.02] tracking-tightest sm:text-[56px] lg:text-[64px]">
@@ -57,8 +61,9 @@ export function Hero() {
           </Reveal>
         </div>
 
-        {/* Phone */}
-        <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[340px] lg:max-w-none lg:justify-self-end lg:[max-width:380px]">
+        {/* Phone — width capped by viewport height on desktop so the whole
+            mockup is visible above the fold without scrolling */}
+        <div className="relative mx-auto w-full max-w-[260px] sm:max-w-[300px] lg:max-w-none lg:w-[min(330px,37svh)] lg:justify-self-end">
           <motion.div
             style={{ y: phoneY }}
             initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96 }}
