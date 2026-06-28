@@ -20,8 +20,8 @@ const MAX_DRINKS = 6;
 
 // Compact SVG geometry
 const VB_W = 760;
-const VB_H = 170;
-const PAD = { l: 10, r: 10, t: 14, b: 24 };
+const VB_H = 184;
+const PAD = { l: 10, r: 10, t: 28, b: 24 };
 const PLOT_W = VB_W - PAD.l - PAD.r;
 const PLOT_H = VB_H - PAD.t - PAD.b;
 
@@ -198,19 +198,26 @@ export function Calculator() {
 
         <Reveal delay={0.1}>
           <div className="surface-card mt-8 p-4 sm:p-6">
-            {/* one calm panel: three stats + a quiet verdict line */}
-            <div className="rounded-2xl border border-paper-line bg-paper-card dark:border-night-line dark:bg-night-card">
-              <div className="grid grid-cols-3 divide-x divide-paper-line dark:divide-night-line">
-                <Stat label={t.calc.now} value={nowVal} unit={t.calc.mg} />
-                <Stat label={t.calc.peak} value={peak} unit={t.calc.mg} />
-                <Stat label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
+            {/* big live number (Apple-Health style) + quiet secondary stats */}
+            <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">
+                  {t.calc.now}
+                </p>
+                <p className="mt-1 flex items-baseline gap-1.5">
+                  <span className="text-[40px] font-bold leading-none tabular-nums sm:text-[48px]">
+                    <AnimatedNumber value={nowVal} />
+                  </span>
+                  <span className="text-[15px] font-medium text-faint">{t.calc.mg}</span>
+                </p>
+                <div className="mt-2.5 flex items-center gap-2">
+                  <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: vColor }} />
+                  <p className="text-[12.5px] leading-snug text-muted">{vText}</p>
+                </div>
               </div>
-              <div className="flex items-start gap-2 border-t border-paper-line px-4 py-3 dark:border-night-line">
-                <span
-                  className="mt-1 h-2 w-2 shrink-0 rounded-full"
-                  style={{ background: vColor }}
-                />
-                <p className="text-[12.5px] leading-snug text-muted">{vText}</p>
+              <div className="flex gap-6">
+                <MiniStat label={t.calc.peak} value={peak} unit={t.calc.mg} />
+                <MiniStat label={t.calc.atBedtime} value={atBed} unit={t.calc.mg} color={vColor} />
               </div>
             </div>
 
@@ -227,19 +234,39 @@ export function Calculator() {
               >
                 <defs>
                   <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#FF6600" stopOpacity="0.30" />
+                    <stop offset="0%" stopColor="#FF6600" stopOpacity="0.12" />
                     <stop offset="100%" stopColor="#FF6600" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
-                <line
-                  x1={PAD.l}
-                  y1={yOf(0)}
-                  x2={VB_W - PAD.r}
-                  y2={yOf(0)}
-                  className="stroke-paper-line dark:stroke-night-line"
-                  strokeWidth={1}
-                />
+                {/* faint horizontal gridlines + right-aligned mg labels */}
+                {[0, 0.5, 1].map((f) => {
+                  const mg = maxY * f;
+                  const y = yOf(mg);
+                  return (
+                    <g key={f}>
+                      <line
+                        x1={PAD.l}
+                        y1={y}
+                        x2={VB_W - PAD.r}
+                        y2={y}
+                        className="stroke-paper-line dark:stroke-night-line"
+                        strokeWidth={f === 0 ? 1 : 0.6}
+                        opacity={f === 0 ? 1 : 0.6}
+                      />
+                      {f > 0 && (
+                        <text
+                          x={VB_W - PAD.r}
+                          y={y - 3}
+                          textAnchor="end"
+                          className="fill-ink-faint text-[8px]"
+                        >
+                          {Math.round(mg)}
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
                 {hourTicks.map((h) => (
                   <text
                     key={h}
@@ -264,7 +291,7 @@ export function Calculator() {
                   d={linePath}
                   fill="none"
                   stroke="#FF6600"
-                  strokeWidth={2.5}
+                  strokeWidth={2}
                   strokeLinejoin="round"
                   strokeLinecap="round"
                   initial={{ pathLength: 0 }}
@@ -276,7 +303,7 @@ export function Calculator() {
                 {/* bedtime */}
                 <line
                   x1={xOf(bedtime)}
-                  y1={PAD.t - 4}
+                  y1={PAD.t - 2}
                   x2={xOf(bedtime)}
                   y2={yOf(0)}
                   stroke={vColor}
@@ -294,7 +321,7 @@ export function Calculator() {
                 />
                 <circle cx={xOf(bedtime)} cy={yOf(atBed)} r={4.5} fill={vColor} />
                 <g
-                  transform={`translate(${xOf(bedtime)}, ${PAD.t - 10})`}
+                  transform={`translate(${xOf(bedtime)}, ${PAD.t - 14})`}
                   className="cursor-ew-resize"
                   onPointerDown={onDown("bedtime")}
                   onPointerMove={onDrag}
@@ -477,7 +504,7 @@ function AnimatedNumber({ value }: { value: number }) {
   return <>{Math.round(display)}</>;
 }
 
-function Stat({
+function MiniStat({
   label,
   value,
   unit,
@@ -489,18 +516,16 @@ function Stat({
   color?: string;
 }) {
   return (
-    <div className="px-3 py-3 text-center">
-      <p className="truncate text-[9.5px] font-semibold uppercase tracking-wider text-faint">
+    <div>
+      <p className="text-[10.5px] font-semibold uppercase tracking-wider text-faint">
         {label}
       </p>
       <p
-        className="mt-1 flex items-baseline justify-center text-[20px] font-bold leading-none sm:text-[22px]"
+        className="mt-1 flex items-baseline gap-1 text-[20px] font-bold leading-none tabular-nums"
         style={color ? { color } : undefined}
       >
-        <span className="tabular-nums">
-          <AnimatedNumber value={value} />
-        </span>
-        <span className="ml-1 text-[11px] font-medium text-faint">{unit}</span>
+        <AnimatedNumber value={value} />
+        <span className="text-[11px] font-medium text-faint">{unit}</span>
       </p>
     </div>
   );
