@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://irfanbehic.github.io/caffy-website/sitemap.xml
+Sitemap: https://caffy.app/sitemap.xml
