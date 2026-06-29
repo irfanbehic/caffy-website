@@ -8,7 +8,7 @@ function ShotCard({ src, padTop = false }: { src: string; padTop?: boolean }) {
         padTop ? "pt-6" : ""
       }`}
     >
-      <img src={`./screens/${src}`} alt="" loading="lazy" className="block w-full" />
+      <img src={`/screens/${src}`} alt="" loading="lazy" className="block w-full" />
       {/* fade the bottom edge into the card so the crop never looks cut off */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-night" />
     </div>

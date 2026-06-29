@@ -122,7 +122,7 @@ export function Navbar() {
     >
       <nav className="container-x flex h-16 items-center justify-between">
         <button onClick={() => goTo("top")} className="flex items-center gap-2.5">
-          <img src="./icons/owl.png" alt="Caffy" className="h-9 w-9 rounded-[10px]" />
+          <img src="/icons/owl.png" alt="Caffy" className="h-9 w-9 rounded-[10px]" />
           <span className="text-[19px] font-bold tracking-tight">Caffy</span>
         </button>
 

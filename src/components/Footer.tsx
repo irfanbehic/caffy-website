@@ -13,7 +13,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2.5">
               <img
-                src="./icons/owl.png"
+                src="/icons/owl.png"
                 alt="Caffy"
                 className="h-9 w-9 rounded-[10px]"
               />

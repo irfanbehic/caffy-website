@@ -394,7 +394,7 @@ export function Calculator() {
                           strokeWidth={1.5}
                         />
                         <image
-                          href={`./icons/${iconFor(d.kind)}`}
+                          href={`/icons/${iconFor(d.kind)}`}
                           x={-9.5}
                           y={-9.5}
                           width={19}
@@ -423,7 +423,7 @@ export function Calculator() {
                       disabled={atMax}
                       className="flex items-center gap-1.5 rounded-full border border-paper-line bg-paper-surface py-1 pl-1 pr-2.5 text-[13px] font-medium transition-all enabled:hover:-translate-y-0.5 enabled:hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40 dark:border-night-line dark:bg-night-surface"
                     >
-                      <img src={`./icons/${p.icon}`} alt="" className="h-5 w-5" />
+                      <img src={`/icons/${p.icon}`} alt="" className="h-5 w-5" />
                       {t.calc.drinks[p.kind as keyof typeof t.calc.drinks]}
                       <span className="text-faint">{p.mg}</span>
                     </button>
@@ -443,7 +443,7 @@ export function Calculator() {
                         className="group flex items-center gap-1 rounded-full bg-black/[0.05] py-0.5 pl-0.5 pr-2 text-[12px] text-muted transition-colors hover:bg-caffeine-red/10 hover:text-caffeine-red dark:bg-white/[0.06]"
                         title={t.calc.remove}
                       >
-                        <img src={`./icons/${iconFor(d.kind)}`} alt="" className="h-4 w-4" />
+                        <img src={`/icons/${iconFor(d.kind)}`} alt="" className="h-4 w-4" />
                         <span className="tabular-nums">{clockLabel(d.at)}</span>
                         <span className="text-[14px] leading-none opacity-60 group-hover:opacity-100">×</span>
                       </button>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { I18nProvider } from "./i18n";
 import { ThemeProvider } from "./lib/theme";
 import { Navbar } from "./components/Navbar";
@@ -19,16 +19,17 @@ export default function App() {
   return (
     <ThemeProvider>
       <I18nProvider>
-        <HashRouter>
+        <BrowserRouter>
           <ScrollToTop />
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/support" element={<Support />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Footer />
-        </HashRouter>
+        </BrowserRouter>
       </I18nProvider>
     </ThemeProvider>
   );

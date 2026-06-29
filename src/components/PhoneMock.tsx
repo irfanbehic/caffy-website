@@ -70,7 +70,7 @@ export function DashboardFallback() {
           <p className="text-[11px] text-white/50">Caffy</p>
           <p className="text-[15px] font-semibold">Today</p>
         </div>
-        <img src="./icons/owl.png" className="h-9 w-9 rounded-xl" alt="" />
+        <img src="/icons/owl.png" className="h-9 w-9 rounded-xl" alt="" />
       </div>
       <div className="relative mx-auto mt-7 h-[130px] w-[130px]">
         <svg viewBox="0 0 130 130" className="h-full w-full -rotate-90">
@@ -89,7 +89,7 @@ export function DashboardFallback() {
           { i: "matcha.png", mg: 70 },
         ].map((d) => (
           <div key={d.i} className="flex items-center gap-3 rounded-xl bg-white/[0.04] px-3 py-2">
-            <img src={`./icons/${d.i}`} className="h-7 w-7" alt="" />
+            <img src={`/icons/${d.i}`} className="h-7 w-7" alt="" />
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
               <div className="h-full rounded-full bg-accent/70" style={{ width: `${d.mg}%` }} />
             </div>

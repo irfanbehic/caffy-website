@@ -1,14 +1,15 @@
-// Pre-render the home page to static HTML so crawlers (and the first paint) get
-// fully-rendered content instead of an empty <div id="root">. Runs after
-// `vite build` and rewrites dist/index.html with the rendered DOM. The app
-// still boots normally on the client (createRoot re-renders over it).
+// Pre-render each route to its own static HTML file so crawlers (and direct
+// deep links like /privacy) get fully-rendered content with a clean 200 — no
+// hash, no JS-only routing. Runs after `vite build`. The app still boots
+// normally on the client (createRoot re-renders over it).
 import { createServer } from "http";
-import { readFile, writeFile } from "fs/promises";
+import { readFile, writeFile, mkdir, copyFile } from "fs/promises";
 import { existsSync } from "fs";
 import { join, extname } from "path";
 
 const DIST = "dist";
 const PORT = 4317;
+const ROUTES = ["/", "/privacy", "/support"];
 const TYPES = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -55,27 +56,35 @@ async function main() {
     Object.defineProperty(navigator, "languages", { get: () => ["en-US", "en"] });
   });
   await page.setViewport({ width: 1280, height: 900 });
-  await page.goto(`http://localhost:${PORT}/`, { waitUntil: "networkidle0" });
-  await page.waitForSelector("#root > *", { timeout: 20000 });
 
-  // Walk the page so every scroll-reveal animation completes — the captured
-  // HTML then shows content instead of opacity:0 placeholders.
-  await page.evaluate(async () => {
-    const h = document.body.scrollHeight;
-    for (let y = 0; y <= h; y += 300) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 30));
-    }
-    window.scrollTo(0, 0);
-    await new Promise((r) => setTimeout(r, 400));
-  });
+  for (const route of ROUTES) {
+    await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: "networkidle0" });
+    await page.waitForSelector("#root > *", { timeout: 20000 });
 
-  const html = await page.content();
-  await writeFile(join(DIST, "index.html"), html);
+    // Walk the page so every scroll-reveal animation completes — the captured
+    // HTML then shows content instead of opacity:0 placeholders.
+    await page.evaluate(async () => {
+      const h = document.body.scrollHeight;
+      for (let y = 0; y <= h; y += 300) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 30));
+      }
+      window.scrollTo(0, 0);
+      await new Promise((r) => setTimeout(r, 400));
+    });
+
+    const html = await page.content();
+    const outDir = route === "/" ? DIST : join(DIST, route);
+    if (outDir !== DIST) await mkdir(outDir, { recursive: true });
+    await writeFile(join(outDir, "index.html"), html);
+    console.log(`✓ prerendered ${route}`);
+  }
+
+  // 404 fallback for any unknown path → serve the home page (router redirects).
+  await copyFile(join(DIST, "index.html"), join(DIST, "404.html"));
 
   await browser.close();
   server.close();
-  console.log("✓ prerendered dist/index.html");
 }
 
 main().catch((err) => {

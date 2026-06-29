@@ -18,7 +18,7 @@ export function CTA() {
             />
 
             <img
-              src="./icons/owl.png"
+              src="/icons/owl.png"
               alt="Caffy"
               className="mx-auto mb-7 h-20 w-20 rounded-3xl shadow-lift"
             />
