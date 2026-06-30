@@ -8,6 +8,11 @@
     <meta name="theme-color" content="#0A0A0B" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)" />
     <script>
+      // Don't let the browser auto-restore the previous scroll position on
+      // reopen/reload: on a slow load it jumps to the saved offset before content
+      // exists, then shifts as it loads (the "fine on first visit, janky on every
+      // visit after" bug). The app manages scroll itself.
+      try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (e) {}
       // Apply theme before paint to avoid a flash (works with the prerendered HTML)
       (function () {
         try {
