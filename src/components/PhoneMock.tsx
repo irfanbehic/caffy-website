@@ -12,11 +12,14 @@ export function PhoneMock({
   alt,
   children,
   className = "",
+  priority = false,
 }: {
   src?: string;
   alt?: string;
   children?: ReactNode;
   className?: string;
+  /** Above-the-fold image (hero): load eagerly with high priority. */
+  priority?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
   const showImage = src && !failed;
@@ -41,7 +44,9 @@ export function PhoneMock({
               <img
                 src={src}
                 alt={alt ?? ""}
-                loading="lazy"
+                loading={priority ? "eager" : "lazy"}
+                fetchPriority={priority ? "high" : undefined}
+                decoding="async"
                 onError={() => setFailed(true)}
                 className="h-full w-full object-cover object-top"
               />
