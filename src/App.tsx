@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { I18nProvider } from "./i18n";
 import { ThemeProvider } from "./lib/theme";
@@ -9,7 +9,16 @@ import { Privacy, Support } from "./pages/LegalPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
+  const isFirst = useRef(true);
   useEffect(() => {
+    // Skip the initial mount: on a slow connection React hydrates AFTER the
+    // user has already started scrolling the prerendered HTML, and a scrollTo(0,0)
+    // here would yank them back to the top ("jumps up while scrolling" bug).
+    // Only reset scroll on real route changes (e.g. /privacy → /).
+    if (isFirst.current) {
+      isFirst.current = false;
+      return;
+    }
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;

@@ -20,6 +20,8 @@
     </script>
 
     <title>Caffy — Caffeine &amp; Sleep Tracker</title>
+    <!-- Hero mockup is the LCP image: fetch it early so it doesn't stream in late on mobile -->
+    <link rel="preload" as="image" href="/screens/dashboard.jpg" fetchpriority="high" />
     <meta
       name="description"
       content="Caffy is a science-based caffeine tracker for iPhone. See how much caffeine is active in your body right now, protect your sleep, and cut back gradually. Track coffee, tea and energy drinks."
