@@ -23,13 +23,17 @@ export default {
         night: { DEFAULT: "#0A0A0B", surface: "#1A1A1C", card: "#141416", line: "#2A2A2E" },
       },
       fontFamily: {
+        // System-font stack (no web-font download). Matches the working Cloudflare
+        // build: iOS uses SF Pro instantly — no font fetch, no FOIT, no swap reflow
+        // (which caused the "loads half, then pops in and jumps" on mobile).
         sans: [
-          "Inter",
           "-apple-system",
           "BlinkMacSystemFont",
           "SF Pro Display",
           "Segoe UI",
+          "Roboto",
           "system-ui",
+          "Inter",
           "sans-serif",
         ],
       },
