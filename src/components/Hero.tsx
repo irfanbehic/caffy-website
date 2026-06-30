@@ -71,7 +71,7 @@ export function Hero() {
           >
             {/* soft floor shadow */}
             <div className="pointer-events-none absolute -bottom-6 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-[50%] bg-black/20 blur-2xl" />
-            <PhoneMock src="/screens/dashboard.jpg" alt="Caffy dashboard">
+            <PhoneMock src="/screens/dashboard.jpg" alt="Caffy dashboard" priority>
               <DashboardFallback />
             </PhoneMock>
           </motion.div>
