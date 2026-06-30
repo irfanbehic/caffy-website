@@ -116,7 +116,7 @@ export function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "border-b border-paper-line/80 bg-paper/80 backdrop-blur-xl dark:border-night-line/80 dark:bg-night/70"
+          ? "border-b border-paper-line/80 bg-paper/95 dark:border-night-line/80 dark:bg-night/90 lg:bg-paper/80 lg:dark:bg-night/70 lg:backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >

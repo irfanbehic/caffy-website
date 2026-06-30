@@ -14,7 +14,7 @@ export function Hero() {
     >
       <div className="bg-grid pointer-events-none absolute inset-0 -z-10" />
       {/* soft warm glow, not a gradient blob hero */}
-      <div className="pointer-events-none absolute -top-24 right-[-10%] -z-10 h-[520px] w-[520px] rounded-full bg-accent/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-24 right-[-10%] -z-10 hidden h-[520px] w-[520px] rounded-full bg-accent/10 blur-[120px] lg:block" />
 
       <div className="container-x grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-6">
         {/* Copy */}
