@@ -20,7 +20,7 @@ export function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-12 pt-24 sm:pt-28 lg:pb-16 lg:pt-20"
+      className="relative flex flex-col overflow-hidden pb-14 pt-24 sm:pt-28 lg:min-h-[100svh] lg:justify-center lg:pb-16 lg:pt-20"
     >
       <div className="bg-grid pointer-events-none absolute inset-0 -z-10" />
       {/* soft warm glow, not a gradient blob hero */}
