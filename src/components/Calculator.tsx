@@ -313,8 +313,7 @@ export function Calculator() {
                   d={areaPath}
                   fill="url(#area)"
                   initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1 }}
                   transition={{ duration: 0.9, delay: 0.2 }}
                 />
                 <motion.path
@@ -325,8 +324,7 @@ export function Calculator() {
                   strokeLinejoin="round"
                   strokeLinecap="round"
                   initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ pathLength: 1 }}
                   transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
                 />
 
