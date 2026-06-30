@@ -1,17 +1,5 @@
-import { motion, useReducedMotion, useInView } from "framer-motion";
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-// useLayoutEffect warns when run without a DOM; the site is prerendered in a
-// real browser, so fall back to useEffect only when window is unavailable.
-const useIsoLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 import { Apple } from "./icons";
 
 export const APP_STORE_URL =
@@ -40,11 +28,18 @@ export function useSectionNav() {
   };
 }
 
-/** Scroll-triggered reveal: subtle fade + rise, respects reduced motion. */
+/**
+ * Renders children directly — always visible.
+ *
+ * This used to be a scroll/`whileInView` reveal, but hiding each section with
+ * `opacity:0` until JS animated it in fought the prerendered HTML: on mobile,
+ * where the bundle parses slowly, the whole page stayed invisible until JS
+ * loaded (slow first paint, late phone mockup, empty sections on scroll).
+ * Content is now shown immediately from the static HTML. `delay`/`y` are kept
+ * for call-site compatibility.
+ */
 export function Reveal({
   children,
-  delay = 0,
-  y = 18,
   className,
 }: {
   children: ReactNode;
@@ -52,44 +47,7 @@ export function Reveal({
   y?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.15 });
-  // Start visible so the prerendered HTML is never hidden on hydration (no
-  // first-load flash, never stuck on mobile). Before the browser paints we hide
-  // ONLY the sections still below the fold, so they can fade in on scroll while
-  // everything already on screen stays put.
-  const [shown, setShown] = useState(true);
-
-  useIsoLayoutEffect(() => {
-    if (reduce) return;
-    const el = ref.current;
-    if (!el) return;
-    if (el.getBoundingClientRect().top > window.innerHeight * 0.9) {
-      setShown(false);
-    }
-  }, [reduce]);
-
-  useEffect(() => {
-    if (inView) setShown(true);
-  }, [inView]);
-
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial={false}
-      animate={{ opacity: shown ? 1 : 0, y: shown ? 0 : y }}
-      // Hiding (below the fold) is instant; only the reveal is animated.
-      transition={{
-        duration: shown ? 0.6 : 0,
-        delay: shown ? delay : 0,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 export function AppStoreBadge({

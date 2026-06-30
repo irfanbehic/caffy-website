@@ -66,9 +66,7 @@ export function Hero() {
         <div className="relative mx-auto w-full max-w-[260px] sm:max-w-[300px] lg:max-w-none lg:w-[min(330px,37svh)] lg:justify-self-end">
           <motion.div
             style={{ y: phoneY }}
-            initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            initial={false}
             className="relative"
           >
             {/* soft floor shadow */}
