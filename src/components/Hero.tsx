@@ -1,5 +1,3 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 import { useI18n } from "../i18n";
 import { AppStoreBadge, Reveal, useSectionNav } from "./ui";
 import { PhoneMock, DashboardFallback } from "./PhoneMock";
@@ -8,18 +6,10 @@ import { ArrowRight } from "./icons";
 export function Hero() {
   const { t } = useI18n();
   const goTo = useSectionNav();
-  const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const phoneY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -50]);
 
   return (
     <section
       id="top"
-      ref={ref}
       className="relative flex flex-col overflow-hidden pb-14 pt-24 sm:pt-28 lg:min-h-[100svh] lg:justify-center lg:pb-16 lg:pt-20"
     >
       <div className="bg-grid pointer-events-none absolute inset-0 -z-10" />
@@ -64,17 +54,13 @@ export function Hero() {
         {/* Phone — width capped by viewport height on desktop so the whole
             mockup is visible above the fold without scrolling */}
         <div className="relative mx-auto w-full max-w-[260px] sm:max-w-[300px] lg:max-w-none lg:w-[min(330px,37svh)] lg:justify-self-end">
-          <motion.div
-            style={{ y: phoneY }}
-            initial={false}
-            className="relative"
-          >
+          <div className="relative">
             {/* soft floor shadow */}
             <div className="pointer-events-none absolute -bottom-6 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-[50%] bg-black/20 blur-2xl" />
             <PhoneMock src="/screens/dashboard.jpg" alt="Caffy dashboard" priority>
               <DashboardFallback />
             </PhoneMock>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
