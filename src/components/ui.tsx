@@ -1,6 +1,18 @@
-import type { ReactNode } from "react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Apple } from "./icons";
+
+// useLayoutEffect warns without a DOM; the site is prerendered in a real
+// browser, so fall back to useEffect only when window is unavailable.
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export const APP_STORE_URL =
   "https://apps.apple.com/tr/app/caffy-caffeine-sleep/id6763036774";
@@ -29,17 +41,18 @@ export function useSectionNav() {
 }
 
 /**
- * Renders children directly — always visible.
+ * Flash-free scroll reveal (subtle fade + rise).
  *
- * This used to be a scroll/`whileInView` reveal, but hiding each section with
- * `opacity:0` until JS animated it in fought the prerendered HTML: on mobile,
- * where the bundle parses slowly, the whole page stayed invisible until JS
- * loaded (slow first paint, late phone mockup, empty sections on scroll).
- * Content is now shown immediately from the static HTML. `delay`/`y` are kept
- * for call-site compatibility.
+ * Starts VISIBLE so the prerendered HTML is never hidden on hydration (no
+ * first-load flash / stuck content). Before paint we hide ONLY the sections that
+ * are below the fold, so they fade in on scroll while anything already on screen
+ * stays put. Cheap GPU opacity/transform — the earlier mobile jank was caused by
+ * backdrop-blur, not this.
  */
 export function Reveal({
   children,
+  delay = 0,
+  y = 18,
   className,
 }: {
   children: ReactNode;
@@ -47,7 +60,39 @@ export function Reveal({
   y?: number;
   className?: string;
 }) {
-  return <div className={className}>{children}</div>;
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.15 });
+  const [shown, setShown] = useState(true);
+
+  useIsoLayoutEffect(() => {
+    if (reduce) return;
+    const el = ref.current;
+    if (!el) return;
+    if (el.getBoundingClientRect().top > window.innerHeight * 0.9) {
+      setShown(false);
+    }
+  }, [reduce]);
+
+  useEffect(() => {
+    if (inView) setShown(true);
+  }, [inView]);
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={false}
+      animate={{ opacity: shown ? 1 : 0, y: shown ? 0 : y }}
+      transition={{
+        duration: shown ? 0.6 : 0,
+        delay: shown ? delay : 0,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 export function AppStoreBadge({
