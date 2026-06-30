@@ -35,7 +35,17 @@ interface I18nValue {
 const I18nContext = createContext<I18nValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [code, setCode] = useState<LocaleCode>(detectLocale);
+  // The static HTML is prerendered in English. Render English on the first
+  // client paint too, so hydration matches — otherwise a non-English visitor
+  // hits a hydration mismatch, React re-renders the whole tree, and the page
+  // reflows/jumps (the "scrolls back to top / slow / janky" bug). Switch to the
+  // visitor's language right after mount in a single clean update.
+  const [code, setCode] = useState<LocaleCode>("en");
+
+  useEffect(() => {
+    const detected = detectLocale();
+    if (detected !== "en") setCode(detected);
+  }, []);
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, code);
