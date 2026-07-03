@@ -116,14 +116,9 @@ export function AppStoreBadge({
       aria-label={label}
       className={`group inline-flex h-[52px] items-center gap-2.5 rounded-2xl px-5 transition-transform duration-300 hover:-translate-y-0.5 ${colors} ${className}`}
     >
-      <Apple className="h-6 w-6" />
-      <span className="flex flex-col leading-none">
-        <span className="text-[10px] font-medium opacity-70">
-          Download on the
-        </span>
-        <span className="mt-0.5 text-[16px] font-semibold tracking-tight">
-          App Store
-        </span>
+      <Apple className="h-6 w-6 shrink-0" />
+      <span className="whitespace-nowrap text-[15px] font-semibold tracking-tight">
+        {label}
       </span>
     </a>
   );
