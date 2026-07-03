@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useI18n, localeList, type LocaleCode } from "../i18n";
 import { useTheme } from "../lib/theme";
@@ -136,6 +137,12 @@ export function Navbar() {
               {l.label}
             </button>
           ))}
+          <Link
+            to="/blog"
+            className="rounded-full px-3.5 py-2 text-[14px] font-medium text-ink-soft transition-colors hover:text-ink dark:text-white/65 dark:hover:text-white"
+          >
+            Blog
+          </Link>
         </div>
 
         <div className="flex items-center gap-1.5">
@@ -181,6 +188,13 @@ export function Navbar() {
                   {l.label}
                 </button>
               ))}
+              <Link
+                to="/blog"
+                onClick={() => setMobile(false)}
+                className="rounded-xl px-3 py-3 text-left text-[15px] font-medium hover:bg-black/5 dark:hover:bg-white/5"
+              >
+                Blog
+              </Link>
             </div>
           </motion.div>
         )}

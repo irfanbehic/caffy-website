@@ -86,7 +86,7 @@ function renderBlock(block: Block, i: number) {
       );
     case "callout":
       return (
-        <div key={i} className="my-8 rounded-2xl border border-accent/25 bg-accent/[0.06] p-5 text-[16px] leading-relaxed text-ink">
+        <div key={i} className="my-8 rounded-2xl border border-accent/25 bg-accent/[0.06] p-5 text-[16px] leading-relaxed text-ink dark:text-white">
           {block.s}
         </div>
       );

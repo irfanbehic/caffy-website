@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 
 // ── On-brand SVG artwork (no external images; adapts to light/dark) ──────────
-type ArtKind = "halflife" | "clock" | "cups" | "gauge" | "taper";
+type ArtKind =
+  | "halflife" | "clock" | "cups" | "gauge" | "taper"
+  | "beans" | "moon" | "mug" | "heart" | "leaf";
 
 export function BlogArt({ kind, className = "" }: { kind: ArtKind; className?: string }) {
   return (
@@ -15,6 +17,11 @@ export function BlogArt({ kind, className = "" }: { kind: ArtKind; className?: s
         {kind === "cups" && <CupsArt />}
         {kind === "gauge" && <GaugeArt />}
         {kind === "taper" && <TaperArt />}
+        {kind === "beans" && <BeansArt />}
+        {kind === "moon" && <MoonArt />}
+        {kind === "mug" && <MugArt />}
+        {kind === "heart" && <HeartArt />}
+        {kind === "leaf" && <LeafArt />}
       </svg>
     </div>
   );
@@ -99,7 +106,7 @@ function GaugeArt() {
       <path d={arc(0, 1)} className="stroke-ink-faint/15" />
       <path d={arc(0, 0.75)} stroke={A} />
       <circle cx={cx + Math.cos(ang(0.75)) * R} cy={cy - Math.sin(ang(0.75)) * R} r="9" fill={A} stroke="none" />
-      <text x={cx} y={cy - 12} textAnchor="middle" className="fill-ink text-[26px] font-bold" stroke="none">400</text>
+      <text x={cx} y={cy - 12} textAnchor="middle" className="fill-ink text-[26px] font-bold dark:fill-white" stroke="none">400</text>
       <text x={cx} y={cy + 8} textAnchor="middle" className="fill-ink-faint text-[11px]" stroke="none">mg / day</text>
     </g>
   );
@@ -113,7 +120,69 @@ function TaperArt() {
       {steps.map((h, i) => (
         <rect key={i} x={40 + i * 55} y={170 - h} width="42" height={h} rx="7" fill={A} opacity={0.9 - i * 0.11} />
       ))}
-      <path d={`M61 ${170 - 150} ${steps.map((h, i) => `L${61 + i * 55} ${170 - h}`).join(" ")}`} fill="none" className="stroke-ink/50" strokeWidth="2" strokeDasharray="4 4" />
+      <path d={`M61 ${170 - 150} ${steps.map((h, i) => `L${61 + i * 55} ${170 - h}`).join(" ")}`} fill="none" className="stroke-ink-faint/60" strokeWidth="2" strokeDasharray="4 4" />
+    </g>
+  );
+}
+
+function BeansArt() {
+  const bean = (x: number, y: number, r: number) => (
+    <g transform={`translate(${x} ${y}) rotate(-25)`}>
+      <ellipse cx="0" cy="0" rx={r} ry={r * 0.66} fill={A} opacity="0.9" />
+      <path d={`M${-r} 0 q${r} ${r * 0.5} ${2 * r} 0`} fill="none" className="stroke-paper-surface dark:stroke-night-surface" strokeWidth="3" />
+    </g>
+  );
+  return (
+    <g>
+      {bean(150, 95, 34)}
+      {bean(250, 110, 30)}
+      <circle cx="300" cy="60" r="3" className="fill-ink-faint/40" />
+      <circle cx="110" cy="150" r="2.5" className="fill-ink-faint/40" />
+    </g>
+  );
+}
+
+function MoonArt() {
+  return (
+    <g>
+      <path d="M215 60 a44 44 0 1 0 0 82 a34 34 0 1 1 0 -82 z" fill={A} opacity="0.92" />
+      {[[300, 70], [325, 110], [285, 130], [120, 90]].map(([x, y], i) => (
+        <g key={i}>
+          <path d={`M${x} ${y - 6} L${x} ${y + 6} M${x - 6} ${y} L${x + 6} ${y}`} className="stroke-ink-faint/50" strokeWidth="2" strokeLinecap="round" />
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function MugArt() {
+  return (
+    <g>
+      <path d="M150 120 q0 -12 0 0 M150 120 h100 v22 a24 24 0 0 1 -24 24 h-52 a24 24 0 0 1 -24 -24 z" fill={A} opacity="0.9" />
+      <path d="M250 128 h14 a16 16 0 0 1 0 32 h-10" fill="none" stroke={A} strokeWidth="7" opacity="0.9" />
+      <line x1="150" y1="120" x2="250" y2="120" className="stroke-paper-surface dark:stroke-night-surface" strokeWidth="4" />
+      {[175, 200, 225].map((x, i) => (
+        <path key={i} d={`M${x} 96 q6 -10 0 -20`} fill="none" className="stroke-ink-faint/45" strokeWidth="3" strokeLinecap="round" />
+      ))}
+    </g>
+  );
+}
+
+function HeartArt() {
+  return (
+    <g>
+      <path d="M200 150 l-44 -42 a26 26 0 0 1 44 -30 a26 26 0 0 1 44 30 z" fill={A} opacity="0.9" />
+      <path d="M60 118 h40 l14 -26 l20 52 l16 -34 l10 20 h140" fill="none" className="stroke-ink/70 dark:stroke-white/80" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </g>
+  );
+}
+
+function LeafArt() {
+  return (
+    <g>
+      <path d="M150 150 C150 90 210 60 260 62 C262 112 232 152 172 152 C168 152 158 152 150 150 z" fill={A} opacity="0.9" />
+      <path d="M150 150 C185 130 220 100 255 68" fill="none" className="stroke-paper-surface dark:stroke-night-surface" strokeWidth="3" strokeLinecap="round" />
+      <path d="M150 152 q-14 8 -20 20" fill="none" className="stroke-ink-faint/50" strokeWidth="4" strokeLinecap="round" />
     </g>
   );
 }
@@ -137,7 +206,9 @@ export interface Post {
   sources: { label: string; url: string }[];
 }
 
-const b = (str: string) => <strong className="font-semibold text-ink">{str}</strong>;
+const b = (str: string) => (
+  <strong className="font-semibold text-ink dark:text-white">{str}</strong>
+);
 
 export const posts: Post[] = [
   {
@@ -152,13 +223,13 @@ export const posts: Post[] = [
       { t: "p", s: <>That 2 p.m. coffee isn't gone by dinner. Caffeine leaves your body on a predictable schedule set by its {b("half-life")} — and understanding it is the single most useful thing you can know about your daily habit.</> },
       { t: "h2", s: "What “half-life” means" },
       { t: "p", s: <>Caffeine's half-life is the time your body needs to clear {b("half")} of a dose. In a healthy adult it averages {b("about 5–6 hours")}, though it ranges widely — roughly 1.5 to 9.5 hours — depending on your genes, age, liver, and medications.</> },
-      { t: "art", kind: "halflife", caption: "Each marker is one half-life — the amount halves, then halves again." },
+      { t: "art", kind: "beans", caption: "That afternoon cup is still working hours later." },
       { t: "p", s: <>Say you drink {b("200 mg")} (a large coffee) at 9 a.m. By early-to-mid afternoon you still have about {b("100 mg")} circulating. Six hours later, ~50 mg. It takes roughly {b("5–6 half-lives — about a full day")} for caffeine to be effectively gone.</> },
       { t: "h2", s: "Why your number is personal" },
       { t: "ul", items: [
-        <><span className="text-ink font-medium">Pregnancy & oral contraceptives</span> slow it down — in late pregnancy the half-life can stretch toward 15 hours.</>,
-        <><span className="text-ink font-medium">Smoking</span> speeds it up, roughly halving the half-life.</>,
-        <><span className="text-ink font-medium">Genetics (CYP1A2)</span> make some people fast metabolizers and others slow.</>,
+        <><span className="font-medium text-ink dark:text-white">Pregnancy & oral contraceptives</span> slow it down — in late pregnancy the half-life can stretch toward 15 hours.</>,
+        <><span className="font-medium text-ink dark:text-white">Smoking</span> speeds it up, roughly halving the half-life.</>,
+        <><span className="font-medium text-ink dark:text-white">Genetics (CYP1A2)</span> make some people fast metabolizers and others slow.</>,
       ] },
       { t: "callout", s: <>This is exactly what Caffy models. Instead of a rule of thumb, it uses {b("your")} half-life to show how much caffeine is active in your body right now.</> },
       { t: "h2", s: "The takeaway" },
@@ -181,7 +252,7 @@ export const posts: Post[] = [
       { t: "p", s: <>You can fall asleep after an evening coffee and still sleep worse — caffeine quietly trades your {b("deep sleep")} for lighter sleep. The question is when to have your last cup.</> },
       { t: "h2", s: "What the research now says" },
       { t: "p", s: <>A {b("2023 systematic review and meta-analysis")} in Sleep Medicine Reviews pooled 24 studies. On average, caffeine cut total sleep time by {b("45 minutes")}, reduced sleep efficiency by 7%, and shifted sleep toward lighter stages.</> },
-      { t: "art", kind: "clock", caption: "Count back from your bedtime, not forward from your morning." },
+      { t: "art", kind: "moon", caption: "Protect the sleep you can\u2019t get back." },
       { t: "p", s: <>Their practical guidance: to avoid losing sleep, a normal coffee (~107 mg) should be your last {b("at least 8.8 hours before bed")}. A strong pre-workout (~217 mg) needs about {b("13 hours")}.</> },
       { t: "h2", s: "Turn that into a cutoff time" },
       { t: "ul", items: [
@@ -207,7 +278,7 @@ export const posts: Post[] = [
     cover: "cups",
     body: [
       { t: "p", s: <>“One coffee” can mean 60 mg or 300 mg of caffeine. Here are typical amounts from Mayo Clinic and CSPI data — useful for staying under your daily limit.</> },
-      { t: "art", kind: "cups", caption: "Caffeine per typical serving — the drink matters more than you'd think." },
+      { t: "art", kind: "mug", caption: "One “coffee” can be 60 mg — or 300." },
       { t: "h2", s: "Typical caffeine per serving" },
       { t: "ul", items: [
         <>{b("Drip coffee (8 oz):")} ~70–100 mg</>,
@@ -239,7 +310,7 @@ export const posts: Post[] = [
       { t: "p", s: <>There is a widely agreed number for healthy adults, and both US and European regulators land on it.</> },
       { t: "h2", s: "The 400 mg rule" },
       { t: "p", s: <>Both the {b("FDA")} and the {b("European Food Safety Authority (EFSA)")} consider up to {b("400 mg of caffeine per day")} safe for most healthy, non-pregnant adults — roughly {b("four cups of coffee")}.</> },
-      { t: "art", kind: "gauge", caption: "400 mg/day for most adults — but single doses over ~200 mg at once can cause jitters." },
+      { t: "art", kind: "heart", caption: "Too much shows up as jitters and a racing heart." },
       { t: "h2", s: "Pregnancy is different" },
       { t: "p", s: <>ACOG, EFSA and the NHS all recommend {b("no more than 200 mg per day")} during pregnancy. One reason: caffeine is cleared much more slowly — its half-life can rise to {b("~15 hours")} in the third trimester, so it accumulates.</> },
       { t: "h2", s: "Signs you're over your line" },
@@ -267,7 +338,7 @@ export const posts: Post[] = [
       { t: "p", s: <>If cutting back has ever left you with a two-day headache, the problem wasn't willpower — it was going too fast.</> },
       { t: "h2", s: "Why withdrawal happens" },
       { t: "p", s: <>Cut caffeine abruptly and symptoms — {b("headache, fatigue, irritability, low mood")} — typically begin {b("12–24 hours")} later and can last {b("2–9 days")}. It's a real physiological rebound, not weakness.</> },
-      { t: "art", kind: "taper", caption: "Step down gradually — each drop small enough that your body barely notices." },
+      { t: "art", kind: "leaf", caption: "Ease off gently \u2014 your body barely notices." },
       { t: "h2", s: "A taper that works" },
       { t: "ul", items: [
         <>Reduce by roughly {b("10–25% every few days")} over 1–2 weeks, not all at once.</>,
