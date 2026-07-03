@@ -50,6 +50,11 @@ export function Footer() {
                   {t.nav.download}
                 </a>
               </li>
+              <li>
+                <Link to="/blog" className="text-muted hover:text-accent">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 

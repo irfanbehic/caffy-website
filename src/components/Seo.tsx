@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useI18n, type LocaleCode } from "../i18n";
 import { SUPPORTED, pathWithoutLocale, urlForLocale } from "../lib/locale";
+import { postBySlug } from "../blog/posts";
 
 const OG_LOCALE: Record<LocaleCode, string> = {
   en: "en_US",
@@ -45,12 +46,23 @@ export function Seo() {
   const { pathname } = useLocation();
   const sub = pathWithoutLocale(pathname);
 
-  const title = sub.startsWith("/privacy")
-    ? `${t.privacy.title} · Caffy`
-    : sub.startsWith("/support")
-      ? `${t.support.title} · Caffy`
-      : t.seo.title;
-  const description = t.seo.description;
+  let title = t.seo.title;
+  let description = t.seo.description;
+  if (sub === "/blog") {
+    title = "Caffeine, Sleep & Science — Caffy Blog";
+    description =
+      "Short, source-backed guides on how caffeine really works and how to protect your sleep — from the makers of Caffy.";
+  } else if (sub.startsWith("/blog/")) {
+    const post = postBySlug(sub.slice("/blog/".length).replace(/\/$/, ""));
+    if (post) {
+      title = `${post.title} · Caffy`;
+      description = post.excerpt;
+    }
+  } else if (sub.startsWith("/privacy")) {
+    title = `${t.privacy.title} · Caffy`;
+  } else if (sub.startsWith("/support")) {
+    title = `${t.support.title} · Caffy`;
+  }
 
   useEffect(() => {
     document.title = title;

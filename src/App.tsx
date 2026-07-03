@@ -7,6 +7,7 @@ import { Footer } from "./components/Footer";
 import { Seo } from "./components/Seo";
 import { Home } from "./pages/Home";
 import { Privacy, Support } from "./pages/LegalPage";
+import { BlogIndex, BlogPost } from "./pages/Blog";
 
 const LANGS = ["tr", "de", "es", "ja"] as const;
 
@@ -40,6 +41,9 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/support" element={<Support />} />
+            {/* Blog (English) */}
+            <Route path="/blog" element={<BlogIndex />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             {/* Localized: /tr, /tr/privacy, … (one prefix group per language) */}
             {LANGS.map((l) => (
               <Route key={l} path={l}>
