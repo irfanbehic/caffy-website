@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useI18n, localeList, type LocaleCode } from "../i18n";
+import { localePath } from "../lib/locale";
 import { useTheme } from "../lib/theme";
 import { Sun, Moon, Globe, Menu, Close, ChevronDown } from "./icons";
 import { APP_STORE_URL, useSectionNav } from "./ui";
@@ -101,7 +102,7 @@ function ThemeToggle() {
 }
 
 export function Navbar() {
-  const { t } = useI18n();
+  const { t, code } = useI18n();
   const scrolled = useScrolled();
   const [mobile, setMobile] = useState(false);
   const goTo = useSectionNav();
@@ -138,7 +139,7 @@ export function Navbar() {
             </button>
           ))}
           <Link
-            to="/blog"
+            to={localePath("/blog", code)}
             className="rounded-full px-3.5 py-2 text-[14px] font-medium text-ink-soft transition-colors hover:text-ink dark:text-white/65 dark:hover:text-white"
           >
             Blog
@@ -189,7 +190,7 @@ export function Navbar() {
                 </button>
               ))}
               <Link
-                to="/blog"
+                to={localePath("/blog", code)}
                 onClick={() => setMobile(false)}
                 className="rounded-xl px-3 py-3 text-left text-[15px] font-medium hover:bg-black/5 dark:hover:bg-white/5"
               >

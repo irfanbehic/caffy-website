@@ -51,7 +51,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <Link to="/blog" className="text-muted hover:text-accent">
+                <Link to={localePath("/blog", code)} className="text-muted hover:text-accent">
                   Blog
                 </Link>
               </li>

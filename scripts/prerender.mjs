@@ -22,7 +22,8 @@ const BLOG_SLUGS = [
   "safe-daily-caffeine-limit-how-much-is-too-much",
   "how-to-cut-back-on-caffeine-without-headaches",
 ];
-const BLOG_ROUTES = ["/blog", ...BLOG_SLUGS.map((s) => `/blog/${s}`)];
+const BLOG_PAGES = ["/blog", ...BLOG_SLUGS.map((s) => `/blog/${s}`)];
+const ALL_PAGES = [...PAGES, ...BLOG_PAGES];
 // en is served at the root; the others under a path prefix.
 const routePath = (lang, page) =>
   lang === "en" ? page : `/${lang}${page === "/" ? "" : page}`;
@@ -48,13 +49,10 @@ function sitemap() {
   const alt = (page) =>
     [...LANGS.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${absUrl(l, page)}"/>`),
      `    <xhtml:link rel="alternate" hreflang="x-default" href="${absUrl("en", page)}"/>`].join("\n");
-  const urls = PAGES.flatMap((page) =>
+  const urls = ALL_PAGES.flatMap((page) =>
     LANGS.map((l) => `  <url>\n    <loc>${absUrl(l, page)}</loc>\n${alt(page)}\n  </url>`)
   ).join("\n");
-  const blog = BLOG_ROUTES.map(
-    (r) => `  <url>\n    <loc>${ORIGIN}${r}/</loc>\n  </url>`
-  ).join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n${blog}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;
 }
 
 async function main() {
@@ -85,10 +83,7 @@ async function main() {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 900 });
 
-  const routes = [
-    ...LANGS.flatMap((lang) => PAGES.map((pg) => routePath(lang, pg))),
-    ...BLOG_ROUTES,
-  ];
+  const routes = LANGS.flatMap((lang) => ALL_PAGES.map((pg) => routePath(lang, pg)));
   for (const route of routes) {
     await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: "networkidle0" });
     await page.waitForSelector("#root > *", { timeout: 20000 });

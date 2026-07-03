@@ -50,6 +50,8 @@ export default function App() {
                 <Route index element={<Home />} />
                 <Route path="privacy" element={<Privacy />} />
                 <Route path="support" element={<Support />} />
+                <Route path="blog" element={<BlogIndex />} />
+                <Route path="blog/:slug" element={<BlogPost />} />
               </Route>
             ))}
             <Route path="*" element={<Navigate to="/" replace />} />
