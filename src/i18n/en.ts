@@ -1,5 +1,10 @@
 const en = {
   meta: { code: "en", name: "English", flag: "🇬🇧" },
+  seo: {
+    title: "Caffy: Caffeine & Sleep Tracker",
+    description:
+      "Caffy is a caffeine & sleep tracker for iPhone. See how much caffeine is active in your body right now, track coffee, tea & energy drinks, and protect your sleep.",
+  },
   nav: {
     features: "Features",
     calculator: "Calculator",

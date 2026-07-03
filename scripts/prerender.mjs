@@ -1,15 +1,24 @@
-// Pre-render each route to its own static HTML file so crawlers (and direct
-// deep links like /privacy) get fully-rendered content with a clean 200 — no
-// hash, no JS-only routing. Runs after `vite build`. The app still boots
-// normally on the client (createRoot re-renders over it).
+// Pre-render every route (all languages) to its own static HTML file so crawlers
+// and direct deep links get fully-rendered, localized content with a clean 200.
+// Language comes from the URL (/, /tr, /de, /es, /ja), so each file carries its
+// own localized <title>/<meta>/hreflang. Also writes a hreflang sitemap.
+// Runs after `vite build`. The app still boots normally on the client.
 import { createServer } from "http";
 import { readFile, writeFile, mkdir, copyFile } from "fs/promises";
-import { existsSync } from "fs";
+import { existsSync, statSync } from "fs";
 import { join, extname } from "path";
 
 const DIST = "dist";
 const PORT = 4317;
-const ROUTES = ["/", "/privacy", "/support"];
+const ORIGIN = "https://caffy.app";
+
+const LANGS = ["en", "tr", "de", "es", "ja"];
+const PAGES = ["/", "/privacy", "/support"];
+// en is served at the root; the others under a path prefix.
+const routePath = (lang, page) =>
+  lang === "en" ? page : `/${lang}${page === "/" ? "" : page}`;
+const absUrl = (lang, page) => `${ORIGIN}${routePath(lang, page)}/`.replace(/\/+$/, "/");
+
 const TYPES = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -23,16 +32,30 @@ const TYPES = {
   ".webmanifest": "application/manifest+json",
   ".xml": "application/xml",
   ".txt": "text/plain",
+  ".webp": "image/webp",
 };
+
+function sitemap() {
+  const alt = (page) =>
+    [...LANGS.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${absUrl(l, page)}"/>`),
+     `    <xhtml:link rel="alternate" hreflang="x-default" href="${absUrl("en", page)}"/>`].join("\n");
+  const urls = PAGES.flatMap((page) =>
+    LANGS.map((l) => `  <url>\n    <loc>${absUrl(l, page)}</loc>\n${alt(page)}\n  </url>`)
+  ).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`;
+}
 
 async function main() {
   const puppeteer = (await import("puppeteer")).default;
 
   const server = createServer(async (req, res) => {
-    let p = decodeURIComponent((req.url || "/").split("?")[0]);
-    if (p === "/") p = "/index.html";
+    const p = decodeURIComponent((req.url || "/").split("?")[0]);
+    // Asset requests have a file extension; SPA routes don't → serve index.html.
     let file = join(DIST, p);
-    if (!existsSync(file)) file = join(DIST, "index.html"); // SPA fallback
+    const isAsset = !!extname(p);
+    if (!isAsset || !existsSync(file) || statSync(file).isDirectory()) {
+      file = join(DIST, "index.html");
+    }
     try {
       const buf = await readFile(file);
       res.setHeader("Content-Type", TYPES[extname(file)] || "application/octet-stream");
@@ -48,39 +71,38 @@ async function main() {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
-  // Render the English default so the static HTML matches the English <head>
-  // meta/canonical (the client still switches to the visitor's language).
-  await page.setExtraHTTPHeaders({ "Accept-Language": "en-US,en;q=0.9" });
-  await page.evaluateOnNewDocument(() => {
-    Object.defineProperty(navigator, "language", { get: () => "en-US" });
-    Object.defineProperty(navigator, "languages", { get: () => ["en-US", "en"] });
-  });
   await page.setViewport({ width: 1280, height: 900 });
 
-  for (const route of ROUTES) {
-    await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: "networkidle0" });
-    await page.waitForSelector("#root > *", { timeout: 20000 });
+  for (const lang of LANGS) {
+    for (const pg of PAGES) {
+      const route = routePath(lang, pg);
+      await page.goto(`http://localhost:${PORT}${route}`, { waitUntil: "networkidle0" });
+      await page.waitForSelector("#root > *", { timeout: 20000 });
 
-    // Walk the page so every scroll-reveal animation completes — the captured
-    // HTML then shows content instead of opacity:0 placeholders.
-    await page.evaluate(async () => {
-      const h = document.body.scrollHeight;
-      for (let y = 0; y <= h; y += 300) {
-        window.scrollTo(0, y);
-        await new Promise((r) => setTimeout(r, 30));
-      }
-      window.scrollTo(0, 0);
-      await new Promise((r) => setTimeout(r, 400));
-    });
+      // Walk the page so scroll-reveal content is present, then let the SEO
+      // effect settle so the captured <head> is localized for this URL.
+      await page.evaluate(async () => {
+        const h = document.body.scrollHeight;
+        for (let y = 0; y <= h; y += 300) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 25));
+        }
+        window.scrollTo(0, 0);
+        await new Promise((r) => setTimeout(r, 400));
+      });
 
-    const html = await page.content();
-    const outDir = route === "/" ? DIST : join(DIST, route);
-    if (outDir !== DIST) await mkdir(outDir, { recursive: true });
-    await writeFile(join(outDir, "index.html"), html);
-    console.log(`✓ prerendered ${route}`);
+      const html = await page.content();
+      const outDir = route === "/" ? DIST : join(DIST, route);
+      if (outDir !== DIST) await mkdir(outDir, { recursive: true });
+      await writeFile(join(outDir, "index.html"), html);
+      console.log(`✓ prerendered ${route}`);
+    }
   }
 
-  // 404 fallback for any unknown path → serve the home page (router redirects).
+  await writeFile(join(DIST, "sitemap.xml"), sitemap());
+  console.log("✓ sitemap.xml");
+
+  // 404 fallback → the English home page (router redirects unknown paths).
   await copyFile(join(DIST, "index.html"), join(DIST, "404.html"));
 
   await browser.close();
@@ -88,7 +110,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  // Never fail the build over prerendering — ship the SPA index.html as-is.
   console.warn("⚠ prerender skipped:", err?.message || err);
   process.exit(0);
 });

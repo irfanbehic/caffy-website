@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Apple } from "./icons";
+import { localeFromPath, localePath } from "../lib/locale";
 
 // useLayoutEffect warns without a DOM; the site is prerendered in a real
 // browser, so fall back to useEffect only when window is unavailable.
@@ -25,14 +26,15 @@ export const APP_STORE_URL =
 export function useSectionNav() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const home = localePath("/", localeFromPath(pathname));
   return (id: string) => {
     const go = () => {
       document
         .getElementById(id)
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
-    if (pathname !== "/") {
-      navigate("/");
+    if (pathname !== home) {
+      navigate(home);
       window.setTimeout(go, 80);
     } else {
       go();

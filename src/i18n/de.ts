@@ -2,6 +2,11 @@ import type { Dict } from "./en";
 
 const de: Dict = {
   meta: { code: "de", name: "Deutsch", flag: "🇩🇪" },
+  seo: {
+    title: "Caffy: Koffein- & Schlaf-Tracker",
+    description:
+      "Caffy ist ein Koffein- & Schlaf-Tracker für iPhone. Sieh in Echtzeit, wie viel Koffein in deinem Körper ist, tracke Kaffee, Tee & Energydrinks und schütze deinen Schlaf.",
+  },
   nav: {
     features: "Funktionen",
     calculator: "Rechner",

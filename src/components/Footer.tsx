@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
+import { localePath } from "../lib/locale";
 import { APP_STORE_URL, useSectionNav } from "./ui";
 
 export function Footer() {
-  const { t } = useI18n();
+  const { t, code } = useI18n();
   const goTo = useSectionNav();
   const year = new Date().getFullYear();
   return (
@@ -58,12 +59,12 @@ export function Footer() {
             </p>
             <ul className="mt-4 space-y-2.5 text-[14px]">
               <li>
-                <Link to="/privacy" className="text-muted hover:text-accent">
+                <Link to={localePath("/privacy", code)} className="text-muted hover:text-accent">
                   {t.footer.privacy}
                 </Link>
               </li>
               <li>
-                <Link to="/support" className="text-muted hover:text-accent">
+                <Link to={localePath("/support", code)} className="text-muted hover:text-accent">
                   {t.footer.support}
                 </Link>
               </li>

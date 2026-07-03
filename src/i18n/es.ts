@@ -2,6 +2,11 @@ import type { Dict } from "./en";
 
 const es: Dict = {
   meta: { code: "es", name: "Español", flag: "🇪🇸" },
+  seo: {
+    title: "Caffy: Control de Cafeína y Sueño",
+    description:
+      "Caffy es un control de cafeína y sueño para iPhone. Mira cuánta cafeína tienes activa ahora, registra café, té y bebidas energéticas y protege tu sueño.",
+  },
   nav: {
     features: "Funciones",
     calculator: "Calculadora",

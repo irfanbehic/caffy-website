@@ -4,8 +4,11 @@ import { I18nProvider } from "./i18n";
 import { ThemeProvider } from "./lib/theme";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { Seo } from "./components/Seo";
 import { Home } from "./pages/Home";
 import { Privacy, Support } from "./pages/LegalPage";
+
+const LANGS = ["tr", "de", "es", "ja"] as const;
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -27,19 +30,29 @@ function ScrollToTop() {
 export default function App() {
   return (
     <ThemeProvider>
-      <I18nProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <I18nProvider>
           <ScrollToTop />
+          <Seo />
           <Navbar />
           <Routes>
+            {/* English (default, served at "/") */}
             <Route path="/" element={<Home />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/support" element={<Support />} />
+            {/* Localized: /tr, /tr/privacy, … (one prefix group per language) */}
+            {LANGS.map((l) => (
+              <Route key={l} path={l}>
+                <Route index element={<Home />} />
+                <Route path="privacy" element={<Privacy />} />
+                <Route path="support" element={<Support />} />
+              </Route>
+            ))}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Footer />
-        </BrowserRouter>
-      </I18nProvider>
+        </I18nProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

@@ -2,6 +2,11 @@ import type { Dict } from "./en";
 
 const tr: Dict = {
   meta: { code: "tr", name: "Türkçe", flag: "🇹🇷" },
+  seo: {
+    title: "Caffy: Kafein & Uyku Takibi",
+    description:
+      "Caffy, iPhone için kafein ve uyku takip uygulaması. Vücudundaki kafeini gerçek zamanlı gör; kahve, çay ve enerji içeceğini takip et, uykunu koru.",
+  },
   nav: {
     features: "Özellikler",
     calculator: "Simülasyon",

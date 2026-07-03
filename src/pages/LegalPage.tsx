@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
+import { localePath } from "../lib/locale";
 import { Reveal } from "../components/ui";
 import { ArrowRight } from "../components/icons";
 import { privacyDoc } from "../i18n/privacy";
@@ -76,12 +77,13 @@ function Article({
   backHome: string;
   children: React.ReactNode;
 }) {
+  const { code } = useI18n();
   return (
     <main className="pt-28 sm:pt-32">
       <div className="container-x max-w-3xl pb-24">
         <Reveal>
           <Link
-            to="/"
+            to={localePath("/", code)}
             className="inline-flex items-center gap-1.5 text-[14px] font-medium text-faint hover:text-accent"
           >
             <ArrowRight className="h-4 w-4 rotate-180" />
