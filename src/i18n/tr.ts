@@ -206,7 +206,7 @@ const tr: Dict = {
       },
       {
         h: "İletişim",
-        p: "Gizlilikle ilgili soruların mı var? Bize support@caffy.com adresinden yaz, sana geri döneriz.",
+        p: "Gizlilikle ilgili soruların mı var? Bize support@caffy.app adresinden yaz, sana geri döneriz.",
       },
     ],
   },
@@ -218,7 +218,7 @@ const tr: Dict = {
     contactTitle: "Bize ulaş",
     contactBody: "Bize yaz, genellikle 1–2 iş günü içinde yanıtlarız.",
     emailButton: "Destek e-postası",
-    email: "support@caffy.com",
+    email: "support@caffy.app",
     topicsTitle: "Sık konular",
     topics: [
       {

@@ -206,7 +206,7 @@ const de: Dict = {
       },
       {
         h: "Kontakt",
-        p: "Fragen zum Datenschutz? Schreib uns an support@caffy.com und wir melden uns.",
+        p: "Fragen zum Datenschutz? Schreib uns an support@caffy.app und wir melden uns.",
       },
     ],
   },
@@ -218,7 +218,7 @@ const de: Dict = {
     contactTitle: "Kontakt",
     contactBody: "Schreib uns – meist antworten wir innerhalb von 1–2 Werktagen.",
     emailButton: "Support per E-Mail",
-    email: "support@caffy.com",
+    email: "support@caffy.app",
     topicsTitle: "Häufige Themen",
     topics: [
       {
