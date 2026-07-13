@@ -29,6 +29,10 @@ const BLOG_SLUGS = [
   "caffeine-detox-timeline-what-to-expect",
   "caffeine-and-adhd",
   "caffeine-before-workout-timing-and-dose",
+  "what-is-matcha",
+  "l-theanine-calm-focus",
+  "matcha-health-benefits",
+  "how-to-make-matcha-at-home",
 ];
 const BLOG_PAGES = ["/blog", ...BLOG_SLUGS.map((s) => `/blog/${s}`)];
 const ALL_PAGES = [...PAGES, ...BLOG_PAGES];
