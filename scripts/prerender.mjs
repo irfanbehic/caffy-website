@@ -21,6 +21,14 @@ const BLOG_SLUGS = [
   "how-much-caffeine-in-coffee-tea-energy-drinks",
   "safe-daily-caffeine-limit-how-much-is-too-much",
   "how-to-cut-back-on-caffeine-without-headaches",
+  "how-much-caffeine-is-safe-during-pregnancy",
+  "does-caffeine-cause-anxiety",
+  "matcha-vs-coffee-caffeine-and-focus",
+  "how-much-caffeine-in-energy-drinks",
+  "too-much-caffeine-symptoms",
+  "caffeine-detox-timeline-what-to-expect",
+  "caffeine-and-adhd",
+  "caffeine-before-workout-timing-and-dose",
 ];
 const BLOG_PAGES = ["/blog", ...BLOG_SLUGS.map((s) => `/blog/${s}`)];
 const ALL_PAGES = [...PAGES, ...BLOG_PAGES];
