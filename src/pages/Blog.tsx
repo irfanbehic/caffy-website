@@ -6,12 +6,12 @@ import { Reveal, AppStoreBadge } from "../components/ui";
 import { ArrowRight } from "../components/icons";
 import { getPosts, getPost, BlogArt, type Block } from "../blog/posts";
 
-const CHROME: Record<LocaleCode, { eyebrow: string; title: string; sub: string; min: string; blog: string; sources: string }> = {
-  en: { eyebrow: "The Caffy Blog", title: "Caffeine, sleep & science", sub: "Short, source-backed guides on how caffeine really works — and how to get its upside without wrecking your sleep.", min: "min read", blog: "Blog", sources: "Sources" },
-  tr: { eyebrow: "Caffy Blog", title: "Kafein, uyku ve bilim", sub: "Kafeinin gerçekte nasıl çalıştığına dair kısa, kaynaklı rehberler — ve uykunu bozmadan faydasını almak.", min: "dk okuma", blog: "Blog", sources: "Kaynaklar" },
-  de: { eyebrow: "Der Caffy-Blog", title: "Koffein, Schlaf & Wissenschaft", sub: "Kurze, quellenbasierte Guides, wie Koffein wirklich wirkt — und wie du seinen Vorteil ohne Schlafverlust nutzt.", min: "Min. Lesezeit", blog: "Blog", sources: "Quellen" },
-  es: { eyebrow: "El blog de Caffy", title: "Cafeína, sueño y ciencia", sub: "Guías breves y con fuentes sobre cómo funciona la cafeína — y cómo aprovecharla sin arruinar tu sueño.", min: "min de lectura", blog: "Blog", sources: "Fuentes" },
-  ja: { eyebrow: "Caffy ブログ", title: "カフェイン・睡眠・科学", sub: "カフェインの仕組みを、出典付きで手短に — 睡眠を犠牲にせず良さを活かすために。", min: "分で読める", blog: "ブログ", sources: "出典" },
+const CHROME: Record<LocaleCode, { eyebrow: string; title: string; sub: string; min: string; blog: string; sources: string; related: string }> = {
+  en: { eyebrow: "The Caffy Blog", title: "Caffeine, sleep & science", sub: "Short, source-backed guides on how caffeine really works, and how to get its upside without wrecking your sleep.", min: "min read", blog: "Blog", sources: "Sources", related: "Related reading" },
+  tr: { eyebrow: "Caffy Blog", title: "Kafein, uyku ve bilim", sub: "Kafeinin gerçekte nasıl çalıştığına dair kısa, kaynaklı rehberler; uykunu bozmadan faydasını almanın yolları.", min: "dk okuma", blog: "Blog", sources: "Kaynaklar", related: "İlgili yazılar" },
+  de: { eyebrow: "Der Caffy-Blog", title: "Koffein, Schlaf & Wissenschaft", sub: "Kurze, quellenbasierte Guides, wie Koffein wirklich wirkt und wie du seinen Vorteil ohne Schlafverlust nutzt.", min: "Min. Lesezeit", blog: "Blog", sources: "Quellen", related: "Ähnliche Artikel" },
+  es: { eyebrow: "El blog de Caffy", title: "Cafeína, sueño y ciencia", sub: "Guías breves y con fuentes sobre cómo funciona la cafeína y cómo aprovecharla sin arruinar tu sueño.", min: "min de lectura", blog: "Blog", sources: "Fuentes", related: "Lecturas relacionadas" },
+  ja: { eyebrow: "Caffy ブログ", title: "カフェイン・睡眠・科学", sub: "カフェインの仕組みを出典付きで手短に。睡眠を犠牲にせず良さを活かすために。", min: "分で読める", blog: "ブログ", sources: "出典", related: "関連記事" },
 };
 
 const LOCALE_TAG: Record<LocaleCode, string> = { en: "en-US", tr: "tr-TR", de: "de-DE", es: "es-ES", ja: "ja-JP" };
@@ -113,6 +113,15 @@ export function BlogPost() {
   const post = slug ? getPost(code, slug) : undefined;
   if (!post) return <Navigate to={localePath("/blog", code)} replace />;
 
+  // Related posts by shared tag (most overlap first, then newest). Interlinks the
+  // blog into a topical graph so crawlers discover new posts and topical authority flows.
+  const related = getPosts(code)
+    .filter((p) => p.slug !== post.slug && p.tags.some((t) => post.tags.includes(t)))
+    .map((p) => ({ p, shared: p.tags.filter((t) => post.tags.includes(t)).length }))
+    .sort((a, b) => b.shared - a.shared || b.p.date.localeCompare(a.p.date))
+    .slice(0, 3)
+    .map((x) => x.p);
+
   const url = `https://caffy.app${localePath(`/blog/${post.slug}`, code)}/`.replace(/\/+$/, "/");
   const ld = {
     "@context": "https://schema.org",
@@ -164,6 +173,27 @@ export function BlogPost() {
             ))}
           </ul>
         </div>
+
+        {related.length > 0 && (
+          <div className="mt-12">
+            <p className="text-[12px] font-semibold uppercase tracking-wider text-faint">{c.related}</p>
+            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+              {related.map((r) => (
+                <Link
+                  key={r.slug}
+                  to={localePath(`/blog/${r.slug}`, code)}
+                  className="group block overflow-hidden rounded-2xl border border-paper-line bg-paper-surface transition-all hover:-translate-y-0.5 hover:border-accent/40 dark:border-night-line dark:bg-night-surface"
+                >
+                  <BlogArt kind={r.cover} className="aspect-[2/1] rounded-none border-0" />
+                  <div className="p-4">
+                    <h3 className="text-[15px] font-bold leading-snug tracking-tight group-hover:text-accent">{r.title}</h3>
+                    <p className="mt-1.5 text-[12px] font-medium text-faint">{r.readMins} {c.min}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-12 rounded-3xl border border-paper-line bg-paper-surface p-7 text-center dark:border-night-line dark:bg-night-surface">
           <h3 className="text-[20px] font-bold tracking-tight">{t.cta.title}</h3>

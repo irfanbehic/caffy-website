@@ -176,6 +176,7 @@ export interface Post {
   date: string;
   readMins: number;
   cover: ArtKind;
+  tags: string[];
   title: string;
   excerpt: string;
   body: Block[];
@@ -191,39 +192,39 @@ interface Localized {
 
 // Language-neutral metadata (shared across all locales).
 const SHARED = [
-  { slug: "how-long-does-caffeine-stay-in-your-body", date: "2026-07-02", readMins: 5, cover: "halflife" as ArtKind,
+  { slug: "how-long-does-caffeine-stay-in-your-body", date: "2026-07-02", readMins: 5, cover: "halflife" as ArtKind, tags: ["science", "sleep", "health"],
     urls: ["https://www.sleepfoundation.org/nutrition/how-long-does-it-take-caffeine-to-wear-off", "https://www.ncbi.nlm.nih.gov/books/NBK223808/"] },
-  { slug: "what-time-to-stop-drinking-coffee-for-sleep", date: "2026-06-30", readMins: 5, cover: "clock" as ArtKind,
+  { slug: "what-time-to-stop-drinking-coffee-for-sleep", date: "2026-06-30", readMins: 5, cover: "clock" as ArtKind, tags: ["sleep", "science"],
     urls: ["https://www.sciencedirect.com/science/article/pii/S1087079223000205", "https://www.ajmc.com/view/caffeine-and-sleep-review-suggests-consumption-guidelines"] },
-  { slug: "how-much-caffeine-in-coffee-tea-energy-drinks", date: "2026-06-27", readMins: 4, cover: "cups" as ArtKind,
+  { slug: "how-much-caffeine-in-coffee-tea-energy-drinks", date: "2026-06-27", readMins: 4, cover: "cups" as ArtKind, tags: ["amounts"],
     urls: ["https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/caffeine/art-20049372", "https://www.cspi.org/caffeine-chart"] },
-  { slug: "safe-daily-caffeine-limit-how-much-is-too-much", date: "2026-06-23", readMins: 4, cover: "gauge" as ArtKind,
+  { slug: "safe-daily-caffeine-limit-how-much-is-too-much", date: "2026-06-23", readMins: 4, cover: "gauge" as ArtKind, tags: ["amounts", "health"],
     urls: ["https://www.efsa.europa.eu/en/topics/topic/caffeine", "https://www.coffeeandhealth.org/health/coffee-and-caffeine/guidelines-on-caffeine-intake"] },
-  { slug: "how-to-cut-back-on-caffeine-without-headaches", date: "2026-06-18", readMins: 5, cover: "taper" as ArtKind,
+  { slug: "how-to-cut-back-on-caffeine-without-headaches", date: "2026-06-18", readMins: 5, cover: "taper" as ArtKind, tags: ["detox", "health"],
     urls: ["https://www.bodyspec.com/blog/post/caffeine_withdrawal_symptoms_timeline_and_coping_strategies", "https://www.efsa.europa.eu/en/topics/topic/caffeine"] },
-  { slug: "how-much-caffeine-is-safe-during-pregnancy", date: "2026-07-04", readMins: 4, cover: "heart" as ArtKind,
+  { slug: "how-much-caffeine-is-safe-during-pregnancy", date: "2026-07-04", readMins: 4, cover: "heart" as ArtKind, tags: ["health", "amounts"],
     urls: ["https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/", "https://www.efsa.europa.eu/en/topics/topic/caffeine"] },
-  { slug: "does-caffeine-cause-anxiety", date: "2026-07-05", readMins: 4, cover: "gauge" as ArtKind,
+  { slug: "does-caffeine-cause-anxiety", date: "2026-07-05", readMins: 4, cover: "gauge" as ArtKind, tags: ["health", "science"],
     urls: ["https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/caffeine/art-20045678", "https://www.ncbi.nlm.nih.gov/books/NBK223808/"] },
-  { slug: "matcha-vs-coffee-caffeine-and-focus", date: "2026-07-07", readMins: 4, cover: "leaf" as ArtKind,
+  { slug: "matcha-vs-coffee-caffeine-and-focus", date: "2026-07-07", readMins: 4, cover: "leaf" as ArtKind, tags: ["matcha", "amounts", "science"],
     urls: ["https://nutritionsource.hsph.harvard.edu/food-features/tea/", "https://www.cspi.org/caffeine-chart"] },
-  { slug: "how-much-caffeine-in-energy-drinks", date: "2026-07-08", readMins: 4, cover: "cups" as ArtKind,
+  { slug: "how-much-caffeine-in-energy-drinks", date: "2026-07-08", readMins: 4, cover: "cups" as ArtKind, tags: ["amounts", "health"],
     urls: ["https://www.cspi.org/caffeine-chart", "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/caffeine/art-20049372"] },
-  { slug: "too-much-caffeine-symptoms", date: "2026-07-09", readMins: 4, cover: "heart" as ArtKind,
+  { slug: "too-much-caffeine-symptoms", date: "2026-07-09", readMins: 4, cover: "heart" as ArtKind, tags: ["health", "amounts"],
     urls: ["https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/caffeine/art-20045678", "https://www.efsa.europa.eu/en/topics/topic/caffeine"] },
-  { slug: "caffeine-detox-timeline-what-to-expect", date: "2026-07-10", readMins: 5, cover: "taper" as ArtKind,
+  { slug: "caffeine-detox-timeline-what-to-expect", date: "2026-07-10", readMins: 5, cover: "taper" as ArtKind, tags: ["detox", "health"],
     urls: ["https://www.bodyspec.com/blog/post/caffeine_withdrawal_symptoms_timeline_and_coping_strategies", "https://www.efsa.europa.eu/en/topics/topic/caffeine"] },
-  { slug: "caffeine-and-adhd", date: "2026-07-11", readMins: 4, cover: "beans" as ArtKind,
+  { slug: "caffeine-and-adhd", date: "2026-07-11", readMins: 4, cover: "beans" as ArtKind, tags: ["health", "science"],
     urls: ["https://www.ncbi.nlm.nih.gov/books/NBK223808/", "https://www.sleepfoundation.org/nutrition/caffeine-and-sleep"] },
-  { slug: "caffeine-before-workout-timing-and-dose", date: "2026-07-12", readMins: 4, cover: "mug" as ArtKind,
+  { slug: "caffeine-before-workout-timing-and-dose", date: "2026-07-12", readMins: 4, cover: "mug" as ArtKind, tags: ["fitness", "amounts", "sleep"],
     urls: ["https://www.sleepfoundation.org/nutrition/caffeine-and-sleep", "https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/caffeine/art-20049372"] },
-  { slug: "what-is-matcha", date: "2026-07-13", readMins: 4, cover: "leaf" as ArtKind,
+  { slug: "what-is-matcha", date: "2026-07-13", readMins: 4, cover: "leaf" as ArtKind, tags: ["matcha", "amounts"],
     urls: ["https://nutritionsource.hsph.harvard.edu/food-features/tea/", "https://www.cspi.org/caffeine-chart"] },
-  { slug: "l-theanine-calm-focus", date: "2026-07-13", readMins: 4, cover: "moon" as ArtKind,
+  { slug: "l-theanine-calm-focus", date: "2026-07-13", readMins: 4, cover: "moon" as ArtKind, tags: ["matcha", "science", "health"],
     urls: ["https://pmc.ncbi.nlm.nih.gov/articles/PMC6836118/", "https://nutritionsource.hsph.harvard.edu/food-features/tea/"] },
-  { slug: "matcha-health-benefits", date: "2026-07-13", readMins: 4, cover: "heart" as ArtKind,
+  { slug: "matcha-health-benefits", date: "2026-07-13", readMins: 4, cover: "heart" as ArtKind, tags: ["matcha", "health"],
     urls: ["https://www.nccih.nih.gov/health/green-tea", "https://nutritionsource.hsph.harvard.edu/food-features/tea/"] },
-  { slug: "how-to-make-matcha-at-home", date: "2026-07-13", readMins: 4, cover: "mug" as ArtKind,
+  { slug: "how-to-make-matcha-at-home", date: "2026-07-13", readMins: 4, cover: "mug" as ArtKind, tags: ["matcha"],
     urls: ["https://nutritionsource.hsph.harvard.edu/food-features/tea/", "https://www.cspi.org/caffeine-chart"] },
 ];
 
@@ -1682,6 +1683,7 @@ function build(locale: LocaleCode): Post[] {
     date: m.date,
     readMins: m.readMins,
     cover: m.cover,
+    tags: m.tags,
     title: c[i].title,
     excerpt: c[i].excerpt,
     body: c[i].body,
