@@ -16,7 +16,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
     "sections": [
       {
         "h": "Data We Collect",
-        "p": "• Caffeine entries (drink name, amount in mg, time consumed)\n• Profile information (age, weight, caffeine sensitivity, bedtime, wake time)\n• Notification preferences\n• Account email address (for authentication)\n\nWe do not collect location data, contacts, camera access, or any other device information beyond what is listed above."
+        "p": "• Caffeine entries (drink name, amount in mg, time consumed)\n• Profile information (age, sex, caffeine sensitivity, bedtime, wake time)\n• Notification preferences\n• Account email address (for authentication)\n• Usage data (which screens you open, which features you use, and crash reports), used only to improve the app\n\nWe do not collect location data, contacts, camera access, or any other device information beyond what is listed above."
       },
       {
         "h": "How Your Data Is Used",
@@ -36,7 +36,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       },
       {
         "h": "Third-Party Services",
-        "p": "Caffy uses the following third-party services:\n• Supabase — database and authentication (supabase.com/privacy)\n• Anthropic (Claude API) — AI analysis of anonymised weekly stats, processed server-side and not retained\n• Apple UserNotifications — local push notifications (no data leaves your device)\n\nNo analytics SDKs, advertising networks, or tracking libraries are included in the app."
+        "p": "Caffy uses the following third-party services:\n• Supabase — database and authentication (supabase.com/privacy)\n• Anthropic (Claude API) — AI analysis of anonymised weekly stats, processed server-side and not retained\n• RevenueCat — subscription management (revenuecat.com/privacy)\n• PostHog — product analytics: which screens you open and which features you use, processed in the United States (posthog.com/privacy)\n• Apple UserNotifications — local push notifications (no data leaves your device)\n\nCaffy contains no advertising networks and does not track you across other apps or websites. Your caffeine entries, sleep scores and body profile are never sent to the analytics service."
       },
       {
         "h": "Children's Privacy",
@@ -79,7 +79,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       },
       {
         "h": "Üçüncü Taraf Hizmetler",
-        "p": "Caffy aşağıdaki üçüncü taraf hizmetleri kullanır:\n• Supabase — veritabanı ve kimlik doğrulama (supabase.com/privacy)\n• Anthropic (Claude API) — sunucu tarafında işlenen ve saklanmayan anonimleştirilmiş haftalık istatistiklerin yapay zeka analizi\n• Apple UserNotifications — yerel push bildirimleri (cihazınızdan veri çıkmaz)\n\nUygulama herhangi bir analitik SDK, reklam ağı veya izleme kütüphanesi içermez."
+        "p": "Caffy aşağıdaki üçüncü taraf hizmetleri kullanır:\n• Supabase — veritabanı ve kimlik doğrulama (supabase.com/privacy)\n• Anthropic (Claude API) — sunucu tarafında işlenen ve saklanmayan anonimleştirilmiş haftalık istatistiklerin yapay zeka analizi\n• RevenueCat — abonelik yönetimi (revenuecat.com/privacy)\n• PostHog — ürün analitiği: hangi ekranları açtığın ve hangi özellikleri kullandığın; veriler ABD'de işlenir (posthog.com/privacy)\n• Apple UserNotifications — yerel bildirimler (cihazından veri çıkmaz)\n\nCaffy reklam ağı içermez ve seni başka uygulama veya sitelerde izlemez. Kafein kayıtların, uyku skorların ve vücut profilin analitik hizmetine hiçbir zaman gönderilmez."
       },
       {
         "h": "Çocukların Gizliliği",
@@ -102,7 +102,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
     "sections": [
       {
         "h": "Daten, die wir sammeln",
-        "p": "• Koffein-Einträge (Getränkename, Menge in mg, Zeitpunkt des Konsums)\n• Profilinformationen (Alter, Gewicht, Koffeinempfindlichkeit, Schlafens- und Aufwachzeit)\n• Benachrichtigungseinstellungen\n• Konto-E-Mail-Adresse (zur Authentifizierung)\n\nWir erfassen keine Standortdaten, Kontakte, Kamerazugriff oder andere Geräteinformationen über das oben Genannte hinaus."
+        "p": "• Koffein-Einträge (Getränkename, Menge in mg, Zeitpunkt des Konsums)\n• Profilinformationen (Alter, Geschlecht, Koffeinempfindlichkeit, Schlafens- und Aufwachzeit)\n• Benachrichtigungseinstellungen\n• Konto-E-Mail-Adresse (zur Authentifizierung)\n• Nutzungsdaten (welche Bildschirme du öffnest, welche Funktionen du nutzt, sowie Absturzberichte), ausschließlich zur Verbesserung der App\n\nWir erfassen keine Standortdaten, Kontakte, Kamerazugriff oder andere Geräteinformationen über das oben Genannte hinaus."
       },
       {
         "h": "Wie deine Daten verwendet werden",
@@ -122,7 +122,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       },
       {
         "h": "Drittanbieter-Dienste",
-        "p": "Caffy verwendet folgende Drittanbieter-Dienste:\n• Supabase — Datenbank und Authentifizierung (supabase.com/privacy)\n• Anthropic (Claude API) — KI-Analyse anonymisierter Wochenstatistiken, serverseitig verarbeitet und nicht gespeichert\n• Apple UserNotifications — lokale Push-Benachrichtigungen (keine Daten verlassen dein Gerät)\n\nDie App enthält keine Analyse-SDKs, Werbenetzwerke oder Tracking-Bibliotheken."
+        "p": "Caffy nutzt folgende Drittanbieter-Dienste:\n• Supabase — Datenbank und Authentifizierung (supabase.com/privacy)\n• Anthropic (Claude API) — KI-Analyse anonymisierter Wochenstatistiken, serverseitig verarbeitet und nicht gespeichert\n• RevenueCat — Abo-Verwaltung (revenuecat.com/privacy)\n• PostHog — Produktanalyse: welche Bildschirme du öffnest und welche Funktionen du nutzt, verarbeitet in den USA (posthog.com/privacy)\n• Apple UserNotifications — lokale Benachrichtigungen (keine Daten verlassen dein Gerät)\n\nCaffy enthält keine Werbenetzwerke und verfolgt dich nicht über andere Apps oder Websites hinweg. Deine Koffein-Einträge, Schlafwerte und dein Körperprofil werden nie an den Analysedienst gesendet."
       },
       {
         "h": "Kinderdatenschutz",
@@ -145,7 +145,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
     "sections": [
       {
         "h": "Datos que recopilamos",
-        "p": "• Registros de cafeína (nombre de bebida, cantidad en mg, hora de consumo)\n• Información de perfil (edad, peso, sensibilidad a la cafeína, hora de dormir/despertar)\n• Preferencias de notificación\n• Dirección de correo electrónico (para autenticación)\n\nNo recopilamos datos de ubicación, contactos, acceso a la cámara ni ninguna otra información del dispositivo más allá de lo indicado."
+        "p": "• Registros de cafeína (nombre de bebida, cantidad en mg, hora de consumo)\n• Información de perfil (edad, sexo, sensibilidad a la cafeína, hora de dormir/despertar)\n• Preferencias de notificación\n• Dirección de correo electrónico (para autenticación)\n• Datos de uso (qué pantallas abres, qué funciones usas e informes de fallos), solo para mejorar la app\n\nNo recopilamos datos de ubicación, contactos, acceso a la cámara ni ninguna otra información del dispositivo más allá de lo indicado."
       },
       {
         "h": "Cómo se usan tus datos",
@@ -165,7 +165,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       },
       {
         "h": "Servicios de terceros",
-        "p": "Caffy utiliza los siguientes servicios de terceros:\n• Supabase — base de datos y autenticación (supabase.com/privacy)\n• Anthropic (API de Claude) — análisis IA de estadísticas semanales anonimizadas, procesadas en servidor y no retenidas\n• Apple UserNotifications — notificaciones push locales (no se envían datos fuera de tu dispositivo)\n\nLa app no incluye SDK de analítica, redes publicitarias ni bibliotecas de seguimiento."
+        "p": "Caffy usa los siguientes servicios de terceros:\n• Supabase — base de datos y autenticación (supabase.com/privacy)\n• Anthropic (Claude API) — análisis con IA de estadísticas semanales anonimizadas, procesado en el servidor y no almacenado\n• RevenueCat — gestión de suscripciones (revenuecat.com/privacy)\n• PostHog — analítica de producto: qué pantallas abres y qué funciones usas, procesado en Estados Unidos (posthog.com/privacy)\n• Apple UserNotifications — notificaciones locales (ningún dato sale de tu dispositivo)\n\nCaffy no incluye redes publicitarias ni te rastrea en otras apps o sitios web. Tus registros de cafeína, puntuaciones de sueño y perfil corporal nunca se envían al servicio de analítica."
       },
       {
         "h": "Privacidad de menores",
@@ -188,7 +188,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
     "sections": [
       {
         "h": "収集するデータ",
-        "p": "• カフェイン記録（飲み物名、mg量、摂取時刻）\n• プロフィール情報（年齢、体重、カフェイン感受性、就寝・起床時刻）\n• 通知設定\n• アカウントのメールアドレス（認証用）\n\n位置情報、連絡先、カメラアクセス、その他上記以外のデバイス情報は一切収集しません。"
+        "p": "• カフェイン記録（飲み物名、mg量、摂取時刻）\n• プロフィール情報（年齢、性別、カフェイン感受性、就寝・起床時刻）\n• 通知設定\n• アカウントのメールアドレス（認証のため）\n• 利用データ（どの画面を開きどの機能を使ったか、クラッシュレポート）。アプリの改善にのみ使用します\n\n位置情報、連絡先、カメラへのアクセス、その他上記以外の端末情報は収集しません。"
       },
       {
         "h": "データの使用方法",
@@ -208,7 +208,7 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       },
       {
         "h": "サードパーティサービス",
-        "p": "Caffyは以下のサードパーティサービスを使用しています：\n• Supabase — データベースと認証（supabase.com/privacy）\n• Anthropic（Claude API）— 匿名化された週次統計のAI分析（サーバーサイドで処理、保存なし）\n• Apple UserNotifications — ローカルプッシュ通知（データはデバイス外に出ません）\n\nアプリには分析SDK、広告ネットワーク、トラッキングライブラリは含まれていません。"
+        "p": "Caffyは以下のサードパーティサービスを使用しています：\n• Supabase — データベースと認証（supabase.com/privacy）\n• Anthropic（Claude API）— 匿名化された週次統計のAI分析。サーバー側で処理され保存されません\n• RevenueCat — サブスクリプション管理（revenuecat.com/privacy）\n• PostHog — プロダクト分析：どの画面を開きどの機能を使ったか。データは米国で処理されます（posthog.com/privacy）\n• Apple UserNotifications — ローカル通知（データが端末から出ることはありません）\n\nCaffyに広告ネットワークは含まれず、他のアプリやサイトをまたいだ追跡も行いません。カフェイン記録、睡眠スコア、身体プロフィールが分析サービスに送られることはありません。"
       },
       {
         "h": "子どものプライバシー",
