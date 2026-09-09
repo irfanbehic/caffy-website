@@ -14,26 +14,18 @@ const ORIGIN = "https://caffy.app";
 
 const LANGS = ["en", "tr", "de", "es", "ja"];
 const PAGES = ["/", "/privacy", "/support"];
-// Blog is English-only (single set of URLs). Keep slugs in sync with src/blog/posts.tsx.
+// Slugs are read straight out of src/blog/posts.tsx so a new post can never be
+// published without its static file and sitemap entry (the old hand-kept copy
+// of this list silently drifted).
 const BLOG_SLUGS = [
-  "how-long-does-caffeine-stay-in-your-body",
-  "what-time-to-stop-drinking-coffee-for-sleep",
-  "how-much-caffeine-in-coffee-tea-energy-drinks",
-  "safe-daily-caffeine-limit-how-much-is-too-much",
-  "how-to-cut-back-on-caffeine-without-headaches",
-  "how-much-caffeine-is-safe-during-pregnancy",
-  "does-caffeine-cause-anxiety",
-  "matcha-vs-coffee-caffeine-and-focus",
-  "how-much-caffeine-in-energy-drinks",
-  "too-much-caffeine-symptoms",
-  "caffeine-detox-timeline-what-to-expect",
-  "caffeine-and-adhd",
-  "caffeine-before-workout-timing-and-dose",
-  "what-is-matcha",
-  "l-theanine-calm-focus",
-  "matcha-health-benefits",
-  "how-to-make-matcha-at-home",
+  ...new Set(
+    [...(await readFile("src/blog/posts.tsx", "utf8")).matchAll(/^\s*\{ slug: "([a-z0-9-]+)"/gm)].map(
+      (m) => m[1]
+    )
+  ),
 ];
+if (BLOG_SLUGS.length === 0) throw new Error("no blog slugs found in src/blog/posts.tsx");
+
 const BLOG_PAGES = ["/blog", ...BLOG_SLUGS.map((s) => `/blog/${s}`)];
 const ALL_PAGES = [...PAGES, ...BLOG_PAGES];
 // en is served at the root; the others under a path prefix.
