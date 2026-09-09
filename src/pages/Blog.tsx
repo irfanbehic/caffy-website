@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { useI18n, type LocaleCode } from "../i18n";
-import { localePath } from "../lib/locale";
+import { localePath, urlForLocale } from "../lib/locale";
 import { Reveal, AppStoreBadge } from "../components/ui";
 import { ArrowRight } from "../components/icons";
 import { getPosts, getPost, BlogArt, type Block } from "../blog/posts";
@@ -122,7 +122,7 @@ export function BlogPost() {
     .slice(0, 3)
     .map((x) => x.p);
 
-  const url = `https://caffy.app${localePath(`/blog/${post.slug}`, code)}/`.replace(/\/+$/, "/");
+  const url = urlForLocale(`/blog/${post.slug}`, code);
   const ld = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
