@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useI18n, type LocaleCode } from "../i18n";
-import { SUPPORTED, pathWithoutLocale, urlForLocale } from "../lib/locale";
+import { SITE_ORIGIN, SUPPORTED, pathWithoutLocale, urlForLocale } from "../lib/locale";
 import { getPost } from "../blog/posts";
 
 const BLOG_INDEX: Record<LocaleCode, { title: string; description: string }> = {
@@ -44,6 +44,66 @@ function upsertLink(rel: string, href: string, hreflang?: string) {
   el.setAttribute("href", href);
 }
 
+const APP_STORE_URL = "https://apps.apple.com/app/id6763036774";
+
+/**
+ * Keeps a single <script type="application/ld+json" data-caffy-ld> in the head,
+ * replacing its contents on navigation. Prerendered into every static file, so
+ * the brand graph ships with the HTML rather than waiting on hydration.
+ */
+function upsertJsonLd(data: unknown) {
+  let el = document.head.querySelector<HTMLScriptElement>('script[data-caffy-ld]');
+  if (!el) {
+    el = document.createElement("script");
+    el.type = "application/ld+json";
+    el.setAttribute("data-caffy-ld", "");
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(data);
+}
+
+/**
+ * Brand graph. Google leans on Organization + WebSite + SoftwareApplication to
+ * decide that a name like "caffy app" is an entity it can show a proper result
+ * for, which is the whole point: the site was ranking ~11th for its own name.
+ */
+function brandGraph(code: LocaleCode, description: string) {
+  const org = {
+    "@type": "Organization",
+    "@id": `${SITE_ORIGIN}/#organization`,
+    name: "Caffy",
+    alternateName: ["Caffy App", "Caffy Caffeine Tracker"],
+    url: `${SITE_ORIGIN}/`,
+    logo: { "@type": "ImageObject", url: `${SITE_ORIGIN}/icons/owl.png`, width: 1024, height: 1024 },
+    sameAs: [APP_STORE_URL],
+  };
+  const site = {
+    "@type": "WebSite",
+    "@id": `${SITE_ORIGIN}/#website`,
+    name: "Caffy",
+    alternateName: "Caffy App",
+    url: `${SITE_ORIGIN}/`,
+    inLanguage: code,
+    publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+  };
+  const app = {
+    "@type": "SoftwareApplication",
+    "@id": `${SITE_ORIGIN}/#app`,
+    name: "Caffy",
+    alternateName: "Caffy: Caffeine & Sleep",
+    applicationCategory: "HealthApplication",
+    operatingSystem: "iOS 17.0 or later",
+    url: `${SITE_ORIGIN}/`,
+    downloadUrl: APP_STORE_URL,
+    installUrl: APP_STORE_URL,
+    description,
+    inLanguage: code,
+    publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+  return { "@context": "https://schema.org", "@graph": [org, site, app] };
+}
+
 /**
  * Sets a localized <head> for the current language + route so Google indexes a
  * localized page per URL and shows a native-language title/snippet. Rendered
@@ -84,6 +144,9 @@ export function Seo() {
     upsertLink("canonical", urlForLocale(sub, code));
     for (const l of SUPPORTED) upsertLink("alternate", urlForLocale(sub, l), l);
     upsertLink("alternate", urlForLocale(sub, "en"), "x-default");
+    // Only the home page carries the brand graph; article pages have their own
+    // BlogPosting JSON-LD and a second graph there would just add noise.
+    if (sub === "/") upsertJsonLd(brandGraph(code, description));
   }, [title, description, code, sub]);
 
   return null;

@@ -16,7 +16,7 @@ const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export const APP_STORE_URL =
-  "https://apps.apple.com/tr/app/caffy-caffeine-sleep/id6763036774";
+  "https://apps.apple.com/app/id6763036774";
 
 /**
  * Smooth in-page scrolling that also works from the /privacy and /support
