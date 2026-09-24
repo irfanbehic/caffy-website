@@ -5,7 +5,7 @@ import { useI18n, localeList, type LocaleCode } from "../i18n";
 import { localePath } from "../lib/locale";
 import { useTheme } from "../lib/theme";
 import { Sun, Moon, Globe, Menu, Close, ChevronDown } from "./icons";
-import { APP_STORE_URL, useSectionNav } from "./ui";
+import { useAppStoreUrl, useSectionNav } from "./ui";
 
 function useScrolled(threshold = 12) {
   const [scrolled, setScrolled] = useState(false);
@@ -106,6 +106,7 @@ export function Navbar() {
   const scrolled = useScrolled();
   const [mobile, setMobile] = useState(false);
   const goTo = useSectionNav();
+  const appStoreUrl = useAppStoreUrl();
 
   const links = [
     { id: "features", label: t.nav.features },
@@ -150,7 +151,7 @@ export function Navbar() {
           <LanguageMenu />
           <ThemeToggle />
           <a
-            href={APP_STORE_URL}
+            href={appStoreUrl}
             target="_blank"
             rel="noreferrer"
             className="btn-primary ml-1 hidden !h-10 !rounded-xl !px-4 text-[14px] sm:inline-flex"

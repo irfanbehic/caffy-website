@@ -15,8 +15,18 @@ import { localeFromPath, localePath } from "../lib/locale";
 const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-export const APP_STORE_URL =
-  "https://apps.apple.com/app/id6763036774";
+/**
+ * The App Store link for download buttons, tagged with an App Store Connect
+ * campaign so installs that start on this site show up under Analytics →
+ * Sources → Campaigns: `site_blog` from any blog page, `site_home` elsewhere.
+ * Structured data (Seo.tsx) keeps the plain URL; it names the app, it isn't a
+ * click.
+ */
+export function useAppStoreUrl() {
+  const { pathname } = useLocation();
+  const campaign = /(^|\/)blog(\/|$)/.test(pathname) ? "site_blog" : "site_home";
+  return `https://apps.apple.com/app/apple-store/id6763036774?pt=128797681&ct=${campaign}&mt=8`;
+}
 
 /**
  * Smooth in-page scrolling that also works from the /privacy and /support
@@ -107,12 +117,13 @@ export function AppStoreBadge({
   /** force the white badge regardless of theme (for use on dark cards) */
   onDark?: boolean;
 }) {
+  const appStoreUrl = useAppStoreUrl();
   const colors = onDark
     ? "bg-white text-ink"
     : "bg-ink text-white dark:bg-white dark:text-ink";
   return (
     <a
-      href={APP_STORE_URL}
+      href={appStoreUrl}
       target="_blank"
       rel="noreferrer"
       aria-label={label}

@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
 import { localePath } from "../lib/locale";
-import { APP_STORE_URL, useSectionNav } from "./ui";
+import { useAppStoreUrl, useSectionNav } from "./ui";
 
 export function Footer() {
   const { t, code } = useI18n();
   const goTo = useSectionNav();
+  const appStoreUrl = useAppStoreUrl();
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-paper-line dark:border-night-line">
@@ -42,7 +43,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={APP_STORE_URL}
+                  href={appStoreUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="text-muted hover:text-accent"
