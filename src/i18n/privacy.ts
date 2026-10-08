@@ -47,6 +47,10 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
         "p": "Depending on your jurisdiction you may have the right to:\n• Access the personal data we hold about you\n• Request correction of inaccurate data\n• Request deletion of your data\n• Export your data in a portable format\n\nTo exercise any of these rights, contact us at the address below."
       },
       {
+        "h": "Credits",
+        "p": "The 3D illustrations in the app are from Thiings (thiings.co)."
+      },
+      {
         "h": "Contact",
         "p": "If you have questions about this policy or your data, please contact us at privacy@caffy.app"
       }
@@ -88,6 +92,10 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       {
         "h": "Haklarınız",
         "p": "Yetki alanınıza bağlı olarak aşağıdaki haklara sahip olabilirsiniz:\n• Hakkınızda tuttuğumuz kişisel verilere erişim\n• Hatalı verilerin düzeltilmesini talep etme\n• Verilerinizin silinmesini talep etme\n• Verilerinizi taşınabilir formatta dışa aktarma\n\nBu haklardan herhangi birini kullanmak için aşağıdaki adresten bize ulaşın."
+      },
+      {
+        "h": "Teşekkürler",
+        "p": "Uygulamadaki 3D çizimler Thiings'e (thiings.co) aittir."
       },
       {
         "h": "İletişim",
@@ -133,6 +141,10 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
         "p": "Je nach deinem Wohnsitzland kannst du folgende Rechte haben:\n• Zugang zu den personenbezogenen Daten, die wir über dich speichern\n• Berichtigung unrichtiger Daten\n• Löschung deiner Daten\n• Export deiner Daten in einem portablen Format\n\nUm eines dieser Rechte auszuüben, kontaktiere uns über die unten stehende Adresse."
       },
       {
+        "h": "Danksagung",
+        "p": "Die 3D-Illustrationen in der App stammen von Thiings (thiings.co)."
+      },
+      {
         "h": "Kontakt",
         "p": "Bei Fragen zu dieser Richtlinie oder deinen Daten wende dich bitte an: privacy@caffy.app"
       }
@@ -176,6 +188,10 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
         "p": "Según tu jurisdicción, puedes tener derecho a:\n• Acceder a los datos personales que conservamos sobre ti\n• Solicitar la corrección de datos inexactos\n• Solicitar la eliminación de tus datos\n• Exportar tus datos en formato portátil\n\nPara ejercer cualquiera de estos derechos, contáctanos en la dirección indicada."
       },
       {
+        "h": "Créditos",
+        "p": "Las ilustraciones 3D de la app son de Thiings (thiings.co)."
+      },
+      {
         "h": "Contacto",
         "p": "Si tienes preguntas sobre esta política o tus datos, contáctanos en: privacy@caffy.app"
       }
@@ -217,6 +233,10 @@ export const privacyDoc: Record<string, PrivacyDoc> = {
       {
         "h": "あなたの権利",
         "p": "お住まいの地域によっては、以下の権利がある場合があります：\n• 当社が保有するあなたの個人データへのアクセス\n• 不正確なデータの訂正の要求\n• データの削除の要求\n• ポータブル形式でのデータのエクスポート\n\nこれらの権利を行使するには、以下のアドレスまでご連絡ください。"
+      },
+      {
+        "h": "クレジット",
+        "p": "アプリ内の3DイラストはThiings（thiings.co）によるものです。"
       },
       {
         "h": "お問い合わせ",
